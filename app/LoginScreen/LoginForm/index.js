@@ -3,6 +3,10 @@ import { Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 
 import styles from './styles'
 
 class LoginForm extends Component {
+  _onLogin = () => {
+    this.props._setLoginFormVisible(false)
+  }
+
   render () {
     return (
       <View>
@@ -34,9 +38,7 @@ class LoginForm extends Component {
               style={styles.textBoxStyle}
             />
             <TouchableOpacity
-              onPress={() => {
-
-              }}
+              onPress={() => {this._onLogin()}}
               style={styles.loginButtonMargin}
             >
               <ImageBackground

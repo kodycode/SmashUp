@@ -3,9 +3,8 @@ import { Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 
 import styles from './styles'
 
 class RegisterForm extends Component {
-
   registerAccount = () => {
-
+    this.props._setRegisterFormVisible(false)
   }
 
   render () {
