@@ -1,30 +1,45 @@
 import React from 'react'
-import { Text, View, Image, TouchableOpacity } from 'react-native'
+import { Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native'
 import LoginForm from './LoginForm'
+import RegisterForm from './RegisterForm'
 import styles from './styles'
 
 class LoginScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      modalVisible: false
+      loginFormVisible: false,
+      registerFormVisible: false
     }
   }
 
-  _setModalVisible = (arg) => {
-    this.setState({ modalVisible: arg })
+  _setLoginFormVisible = (arg) => {
+    this.setState({ loginFormVisible: arg })
+  }
+
+  _setRegisterFormVisible = (arg) => {
+    this.setState({ registerFormVisible: arg })
   }
 
   _onLoginPress = () => {
-    this.setState({ modalVisible: true })
+    this.setState({ loginFormVisible: true })
+  }
+
+  _onRegisterPress = () => {
+    this.setState({ registerFormVisible: true })
   }
 
   render () {
     return (
       <View style={styles.ViewContainer}>
         {
-          this.state.modalVisible === true ?
-          <LoginForm modalVisible={this.state.modalVisible} _setModalVisible={this._setModalVisible}/> :
+          this.state.loginFormVisible === true ?
+          <LoginForm loginFormVisible={this.state.loginFormVisible} _setLoginFormVisible={this._setLoginFormVisible}/> :
+          null
+        }
+        {
+          this.state.registerFormVisible === true ?
+          <RegisterForm registerFormVisible={this.state.registerFormVisible} _setRegisterFormVisible={this._setRegisterFormVisible}/> :
           null
         }
         <View style={{ width: '100%' }}>
@@ -40,10 +55,20 @@ class LoginScreen extends React.Component {
           />
         </View>
         <TouchableOpacity onPress={this._onLoginPress} style={styles.LoginButton}>
-          <Text style={styles.LoginText}>Login</Text>
+          <ImageBackground
+            source={require('../../assets/img/button_background.png')}
+            style={ styles.LoginImageBackgroundStyle }
+          >
+            <Text style={styles.LoginText}>Login</Text>
+          </ImageBackground>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.LoginButton}>
-          <Text style={styles.LoginText}>Register</Text>
+        <TouchableOpacity onPress={this._onRegisterPress} style={styles.LoginButton}>
+          <ImageBackground
+            source={require('../../assets/img/button_background.png')}
+            style={ styles.LoginImageBackgroundStyle }
+          >
+            <Text style={styles.LoginText}>Register</Text>
+          </ImageBackground>
         </TouchableOpacity>
       </View>
     )

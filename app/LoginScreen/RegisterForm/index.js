@@ -2,27 +2,32 @@ import React, { Component } from 'react'
 import { Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
 import styles from './styles'
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
+
+  registerAccount = () => {
+
+  }
+
   render () {
     return (
       <View>
         <Modal
           animationType="slide"
           transparent={false}
-          visible={this.props.loginFormVisible}
+          visible={this.props.registerFormVisible}
           onRequestClose={() => {
-
+            this.props._setRegisterFormVisible(!this.props.registerFormVisible)
           }}>
           <View style={styles.closeButtonContainer}>
             <TouchableOpacity
               onPress={() => {
-                this.props._setLoginFormVisible(!this.props.loginFormVisible)
+                this.props._setRegisterFormVisible(!this.props.registerFormVisible)
               }}
               style={styles.closeButtonMargin}>
               <Text style={{ fontSize: 40 }}>×</Text>
             </TouchableOpacity>
           </View>
-          <View style={ styles.LoginFormContainer }>
+          <View style={ styles.RegisterFormContainer }>
             <Text style={{ fontFamily: 'gotham' }}>Username:</Text>
             <TextInput
               placeholder='Enter username here'
@@ -33,17 +38,20 @@ class LoginForm extends Component {
               placeholder='Enter password here'
               style={styles.textBoxStyle}
             />
+            <Text style={styles.textMargin}>Confirm Password:</Text>
+            <TextInput
+              placeholder='Re-enter password'
+              style={styles.textBoxStyle}
+            />
             <TouchableOpacity
-              onPress={() => {
-
-              }}
-              style={styles.loginButtonMargin}
+              onPress={() => { this.registerAccount() }}
+              style={styles.registerButtonMargin}
             >
               <ImageBackground
                 source={require('../../../assets/img/button_background.png')}
                 style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}
               >
-                <Text style={{ color: 'white', fontFamily: 'gotham' }}>Login</Text>
+                <Text style={{ color: 'white', fontFamily: 'gotham' }}>Register</Text>
               </ImageBackground>
             </TouchableOpacity>
           </View>
@@ -53,4 +61,4 @@ class LoginForm extends Component {
   }
 }
 
-module.exports = LoginForm
+module.exports = RegisterForm

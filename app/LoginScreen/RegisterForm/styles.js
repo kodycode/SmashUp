@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
-  LoginFormContainer: {
+  RegisterFormContainer: {
     flex: 1,
     flexDirection: 'column',
     width: '100%',
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontFamily: 'gotham'
   },
-  loginButtonMargin: {
+  registerButtonMargin: {
     width: '30%',
     height: '10%',
     marginTop: 40,

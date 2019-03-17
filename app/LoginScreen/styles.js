@@ -1,7 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
-
-const { dimHeight, dimWidth } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   ViewContainer: {
@@ -25,15 +23,20 @@ const styles = StyleSheet.create({
     width: '50%',
     height: '10%',
     backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
     borderWidth: 0.5,
     borderColor: 'white'
   },
   LoginText: {
     color: 'white',
     fontFamily: 'gotham'
+  },
+  LoginImageBackgroundStyle: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 0.5,
+    borderColor: 'white'
   }
 })
 
