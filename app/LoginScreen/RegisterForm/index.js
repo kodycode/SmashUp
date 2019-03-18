@@ -3,7 +3,17 @@ import { Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 
 import styles from './styles'
 
 class RegisterForm extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      username: '',
+      password: '',
+      confirmPass: ''
+    }
+  }
+
   registerAccount = () => {
+    //TODO: Send firebase account details
     this.props._setRegisterFormVisible(false)
   }
 
@@ -31,16 +41,19 @@ class RegisterForm extends Component {
             <TextInput
               placeholder='Enter username here'
               style={styles.textBoxStyle}
+              onChangeText={(username) => { this.setState({ username })}}
             />
             <Text style={styles.textMargin}>Password:</Text>
             <TextInput
               placeholder='Enter password here'
               style={styles.textBoxStyle}
+              onChangeText={(password) => { this.setState({ password })}}
             />
             <Text style={styles.textMargin}>Confirm Password:</Text>
             <TextInput
               placeholder='Re-enter password'
               style={styles.textBoxStyle}
+              onChangeText={(confirmPass) => { this.setState({ confirmPass })}}
             />
             <TouchableOpacity
               onPress={() => { this.registerAccount() }}

@@ -3,7 +3,16 @@ import { Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 
 import styles from './styles'
 
 class LoginForm extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      username: '',
+      password: ''
+    }
+  }
+
   _onLogin = () => {
+    //TODO: Confirm with firebase that account exists
     this.props._setLoginFormVisible(false)
   }
 
@@ -31,11 +40,13 @@ class LoginForm extends Component {
             <TextInput
               placeholder='Enter username here'
               style={styles.textBoxStyle}
+              onChangeText={(username) => { this.setState({ username })}}
             />
             <Text style={styles.textMargin}>Password:</Text>
             <TextInput
               placeholder='Enter password here'
               style={styles.textBoxStyle}
+              onChangeText={(password) => { this.setState({ password })}}
             />
             <TouchableOpacity
               onPress={() => {this._onLogin()}}
