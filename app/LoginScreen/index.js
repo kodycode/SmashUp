@@ -5,7 +5,7 @@ import RegisterForm from './RegisterForm'
 import styles from './styles'
 
 class LoginScreen extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       loginFormVisible: false,
@@ -24,7 +24,7 @@ class LoginScreen extends React.Component {
   setLoginFormVisible = (arg) => {
     const { navigate } = this.props.navigation
     this.setState({ loginFormVisible: arg })
-    //TODO: Confirm with firebase that account exists before proceeding to next screen
+    // TODO: Confirm with firebase that account exists before proceeding to next screen
     navigate('Home')
   }
 
@@ -36,19 +36,19 @@ class LoginScreen extends React.Component {
     return (
       <View style={styles.ViewContainer}>
         {
-          this.state.loginFormVisible === true ?
-          <LoginForm
-            loginFormVisible={this.state.loginFormVisible}
-            setLoginFormVisible={this.setLoginFormVisible}
-            onModalDismissed={this.onModalDismissed}/> :
-          null
+          this.state.loginFormVisible === true
+            ? <LoginForm
+              loginFormVisible={this.state.loginFormVisible}
+              setLoginFormVisible={this.setLoginFormVisible}
+              onModalDismissed={this.onModalDismissed}/>
+            : null
         }
         {
-          this.state.registerFormVisible === true ?
-          <RegisterForm
-            registerFormVisible={this.state.registerFormVisible}
-            setRegisterFormVisible={this.setRegisterFormVisible}/> :
-          null
+          this.state.registerFormVisible === true
+            ? <RegisterForm
+              registerFormVisible={this.state.registerFormVisible}
+              setRegisterFormVisible={this.setRegisterFormVisible}/>
+            : null
         }
         <View style={{ width: '100%' }}>
           <Text style={styles.LoginMessageStyle}>

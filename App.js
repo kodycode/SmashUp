@@ -16,7 +16,7 @@ const MainNavigator = createStackNavigator({
 const App = createAppContainer(MainNavigator)
 
 export default class AppContainer extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       fontLoaded: false
