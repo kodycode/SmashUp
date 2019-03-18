@@ -14,7 +14,7 @@ class RegisterForm extends Component {
 
   registerAccount = () => {
     //TODO: Send firebase account details
-    this.props._setRegisterFormVisible(false)
+    this.props.setRegisterFormVisible(false)
   }
 
   render () {
@@ -25,12 +25,12 @@ class RegisterForm extends Component {
           transparent={false}
           visible={this.props.registerFormVisible}
           onRequestClose={() => {
-            this.props._setRegisterFormVisible(!this.props.registerFormVisible)
+            this.props.setRegisterFormVisible(!this.props.registerFormVisible)
           }}>
           <View style={styles.closeButtonContainer}>
             <TouchableOpacity
               onPress={() => {
-                this.props._setRegisterFormVisible(!this.props.registerFormVisible)
+                this.props.setRegisterFormVisible(!this.props.registerFormVisible)
               }}
               style={styles.closeButtonMargin}>
               <Text style={{ fontSize: 40 }}>×</Text>

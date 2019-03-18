@@ -13,14 +13,6 @@ class LoginScreen extends React.Component {
     }
   }
 
-  _setLoginFormVisible = (arg) => {
-    this.setState({ loginFormVisible: arg })
-  }
-
-  _setRegisterFormVisible = (arg) => {
-    this.setState({ registerFormVisible: arg })
-  }
-
   _onLoginPress = () => {
     this.setState({ loginFormVisible: true })
   }
@@ -29,17 +21,33 @@ class LoginScreen extends React.Component {
     this.setState({ registerFormVisible: true })
   }
 
+  setLoginFormVisible = (arg) => {
+    const { navigate } = this.props.navigation
+    this.setState({ loginFormVisible: arg })
+    //TODO: Confirm with firebase that account exists before proceeding to next screen
+    navigate('Home')
+  }
+
+  setRegisterFormVisible = (arg) => {
+    this.setState({ registerFormVisible: arg })
+  }
+
   render () {
     return (
       <View style={styles.ViewContainer}>
         {
           this.state.loginFormVisible === true ?
-          <LoginForm loginFormVisible={this.state.loginFormVisible} _setLoginFormVisible={this._setLoginFormVisible}/> :
+          <LoginForm
+            loginFormVisible={this.state.loginFormVisible}
+            setLoginFormVisible={this.setLoginFormVisible}
+            onModalDismissed={this.onModalDismissed}/> :
           null
         }
         {
           this.state.registerFormVisible === true ?
-          <RegisterForm registerFormVisible={this.state.registerFormVisible} _setRegisterFormVisible={this._setRegisterFormVisible}/> :
+          <RegisterForm
+            registerFormVisible={this.state.registerFormVisible}
+            setRegisterFormVisible={this.setRegisterFormVisible}/> :
           null
         }
         <View style={{ width: '100%' }}>

@@ -13,7 +13,7 @@ class LoginForm extends Component {
 
   _onLogin = () => {
     //TODO: Confirm with firebase that account exists
-    this.props._setLoginFormVisible(false)
+    this.props.setLoginFormVisible(false)
   }
 
   render () {
@@ -23,13 +23,11 @@ class LoginForm extends Component {
           animationType="slide"
           transparent={false}
           visible={this.props.loginFormVisible}
-          onRequestClose={() => {
-
-          }}>
+          onRequestClose={() => {}}>
           <View style={styles.closeButtonContainer}>
             <TouchableOpacity
               onPress={() => {
-                this.props._setLoginFormVisible(!this.props.loginFormVisible)
+                this.props.setLoginFormVisible(!this.props.loginFormVisible)
               }}
               style={styles.closeButtonMargin}>
               <Text style={{ fontSize: 40 }}>×</Text>

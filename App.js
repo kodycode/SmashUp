@@ -1,13 +1,15 @@
 import React from 'react'
 import { View } from 'react-native'
 import LoginScreen from './app/LoginScreen'
+import HomeScreen from './app/HomeScreen'
 import { createStackNavigator, createAppContainer } from 'react-navigation'
 import { Font } from 'expo'
 
 const MainNavigator = createStackNavigator({
-  Login: { screen: LoginScreen }
+  Login: { screen: LoginScreen },
+  Home: { screen: HomeScreen }
 }, {
-  initialRouteName: 'Login',
+  initialRouteName: 'Home',
   headerMode: 'none'
 })
 
