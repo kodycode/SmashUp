@@ -9,7 +9,7 @@ const MainNavigator = createStackNavigator({
   Login: { screen: LoginScreen },
   Home: { screen: HomeScreen }
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'Login',
   headerMode: 'none'
 })
 

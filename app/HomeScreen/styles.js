@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
+
+const { width, height } = Dimensions.get('screen')
 
 const styles = StyleSheet.create({
   HomeContainer: {
@@ -17,10 +19,19 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   TextStyle: {
-    fontFamily: 'gotham'
+    fontFamily: 'gotham-medium'
+  },
+  rejectButtonTextStyle: {
+    fontFamily: 'gotham-medium',
+    fontSize: 50,
+    color: '#FF6347'
+  },
+  requestButtonTextStyle: {
+    fontFamily: 'gotham-medium',
+    fontSize: 50,
+    color: 'lightseagreen'
   },
   profileContainer: {
-    backgroundColor: 'black',
     width: '100%',
     height: '80%'
   },
@@ -28,8 +39,25 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 30,
     flexDirection: 'row',
-    backgroundColor: 'red',
+    justifyContent: 'space-between',
     width: '100%',
+    height: '100%',
+    paddingLeft: 30,
+    paddingRight: 30
+  },
+  buttonStyle: {
+    width: width * 0.2,
+    height: height * 0.1,
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  card: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width,
     height: '100%'
   }
 })

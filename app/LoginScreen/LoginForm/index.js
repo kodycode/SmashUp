@@ -12,7 +12,7 @@ class LoginForm extends Component {
   }
 
   _onLogin = () => {
-    //TODO: Confirm with firebase that account exists
+    // TODO: Confirm with firebase that account exists
     this.props.setLoginFormVisible(false)
   }
 
@@ -47,7 +47,7 @@ class LoginForm extends Component {
               onChangeText={(password) => { this.setState({ password })}}
             />
             <TouchableOpacity
-              onPress={() => {this._onLogin()}}
+              onPress={() => { this._onLogin() }}
               style={styles.loginButtonMargin}
             >
               <ImageBackground
