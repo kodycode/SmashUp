@@ -19,9 +19,9 @@ class HomeScreen extends React.Component {
     super(props)
     this.state = {
       cards: [
-        { text: 'Player1', backgroundColor: 'salmon' },
-        { text: 'Player2', backgroundColor: 'lightskyblue' },
-        { text: 'Player3', backgroundColor: 'lightgreen' }
+        { text: 'Swipe left/right', backgroundColor: 'salmon' },
+        { text: 'Swipe left/right', backgroundColor: 'lightskyblue' },
+        { text: 'Swipe left/right', backgroundColor: 'lightgreen' }
       ]
     }
     this.swipeCardRef = React.createRef()
@@ -44,6 +44,7 @@ class HomeScreen extends React.Component {
             renderCard={(cardData) => <Card {...cardData} />}
             ref={this.swipeCardRef}
             loop={true}
+            onClickHandler={() => {}}
           />
         </View>
         <View style={styles.buttonContainer}>
