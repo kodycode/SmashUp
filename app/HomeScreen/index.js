@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import styles from './styles'
 
 import SwipeCards from 'react-native-swipe-cards'
@@ -27,11 +27,16 @@ class HomeScreen extends React.Component {
     this.swipeCardRef = React.createRef()
   }
 
+  _onProfilePress = () => {
+    const { navigate } = this.props.navigation
+    navigate('Profile')
+  }
+
   render () {
     return (
       <View>
         <View style={styles.DirectionContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this._onProfilePress}>
             <Text style={styles.TextStyle}>Profile</Text>
           </TouchableOpacity>
           <TouchableOpacity>
