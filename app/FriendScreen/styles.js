@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderTopWidth: 1,
     borderColor: 'lightgray',
-    marginBottom: Platform.OS === 'android' ? 50 : 0
+    marginBottom: 50
+    // marginBottom: Platform.OS === 'android' ? 50 : 0
   },
   friendBlock: {
     flex: 1,
