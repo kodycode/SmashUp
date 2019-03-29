@@ -24,7 +24,7 @@ class FriendScreen extends React.Component {
       { name: 'Player11', player_name: 'TBD', found_by: 'Pokemon Trainer' }
     ]}
     renderItem={({ item }) => {
-      return (<View style={styles.friendBlock}>
+      return (<TouchableOpacity style={styles.friendBlock}>
         <View style={styles.avatarImg}>
         </View>
         <View style={{ paddingLeft: 5 }}>
@@ -32,7 +32,7 @@ class FriendScreen extends React.Component {
           <Text style={styles.TextStyle}>Player Name: {item.player_name}</Text>
           <Text style={styles.TextStyle}>Found By: {item.found_by}</Text>
         </View>
-      </View>)
+      </TouchableOpacity>)
     }}
     keyExtractor={(item, index) => index.toString()}
     />)
