@@ -32,6 +32,11 @@ class HomeScreen extends React.Component {
     navigate('Profile')
   }
 
+  _onFriendPress = () => {
+    const { navigate } = this.props.navigation
+    navigate('Friend')
+  }
+
   render () {
     return (
       <View>
@@ -39,7 +44,7 @@ class HomeScreen extends React.Component {
           <TouchableOpacity onPress={this._onProfilePress}>
             <Text style={styles.TextStyle}>Profile</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this._onFriendPress}>
             <Text style={styles.TextStyle}>Friends</Text>
           </TouchableOpacity>
         </View>

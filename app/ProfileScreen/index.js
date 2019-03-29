@@ -12,7 +12,7 @@ class ProfileScreen extends React.Component {
     return (
       <View>
         <TouchableOpacity style={styles.editButtonContainer}>
-          <Text>Edit</Text>
+          <Text style={{ color: 'white' }}>Edit</Text>
         </TouchableOpacity>
         <View style={styles.ProfileContainer}>
           <View style={styles.DirectionContainer}>

@@ -38,13 +38,13 @@ class LoginForm extends Component {
             <TextInput
               placeholder='Enter username here'
               style={styles.textBoxStyle}
-              onChangeText={(username) => { this.setState({ username })}}
+              onChangeText={(username) => { this.setState({ username }) }}
             />
             <Text style={styles.textMargin}>Password:</Text>
             <TextInput
               placeholder='Enter password here'
               style={styles.textBoxStyle}
-              onChangeText={(password) => { this.setState({ password })}}
+              onChangeText={(password) => { this.setState({ password }) }}
             />
             <TouchableOpacity
               onPress={() => { this._onLogin() }}

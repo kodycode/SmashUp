@@ -5,11 +5,13 @@ import { Font } from 'expo'
 import LoginScreen from './app/LoginScreen'
 import HomeScreen from './app/HomeScreen'
 import ProfileScreen from './app/ProfileScreen'
+import FriendScreen from './app/FriendScreen'
 
 const MainNavigator = createStackNavigator({
   Login: { screen: LoginScreen },
   Home: { screen: HomeScreen },
-  Profile: { screen: ProfileScreen }
+  Profile: { screen: ProfileScreen },
+  Friend: { screen: FriendScreen }
 }, {
   initialRouteName: 'Login',
   headerMode: 'none'

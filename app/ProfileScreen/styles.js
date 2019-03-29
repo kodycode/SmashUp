@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   AvatarContainer: {
-    backgroundColor: 'black',
+    backgroundColor: 'lightgreen',
     width: '100%',
     height: '50%',
     justifyContent: 'flex-end',
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   DirectionContainer: {
     alignItems: 'flex-end',
-    paddingRight: 10
+    padding: 5
   },
   HomeStyle: {
     fontFamily: 'gotham-medium'
