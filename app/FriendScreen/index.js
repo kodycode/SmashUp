@@ -48,8 +48,8 @@ class FriendScreen extends React.Component {
       <View>
         <View style={styles.FriendContainer}>
           <View style={styles.DirectionContainer}>
-            <TouchableOpacity onPress={this._onHomePress}>
-              <Text style={styles.TextStyle}>Home</Text>
+            <TouchableOpacity style={styles.directionLeftButton} onPress={this._onHomePress}>
+              <Text style={styles.directionLeftTextStyle}>Home</Text>
             </TouchableOpacity>
           </View>
           <ScrollView

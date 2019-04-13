@@ -17,8 +17,19 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   DirectionContainer: {
-    alignItems: 'flex-end',
-    padding: 5
+    alignItems: 'flex-end'
+  },
+  directionRightButton: {
+    paddingTop: 5,
+    paddingRight: 5,
+    paddingLeft: 5,
+    borderTopWidth: 0.5,
+    borderLeftWidth: 0.5,
+    borderTopLeftRadius: 10,
+    borderColor: 'black'
+  },
+  directionRightTextStyle: {
+    fontFamily: 'gotham-medium'
   },
   HomeStyle: {
     fontFamily: 'gotham-medium'

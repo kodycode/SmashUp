@@ -15,10 +15,28 @@ const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 5,
     width: '100%'
   },
-  TextStyle: {
+  directionLeftButton: {
+    paddingRight: 5,
+    paddingLeft: 5,
+    borderTopWidth: 0.5,
+    borderRightWidth: 0.5,
+    borderTopRightRadius: 10,
+    borderColor: 'black'
+  },
+  directionRightButton: {
+    paddingRight: 5,
+    paddingLeft: 5,
+    borderTopWidth: 0.5,
+    borderLeftWidth: 0.5,
+    borderTopLeftRadius: 10,
+    borderColor: 'black'
+  },
+  directionLeftTextStyle: {
+    fontFamily: 'gotham-medium'
+  },
+  directionRightTextStyle: {
     fontFamily: 'gotham-medium'
   },
   rejectButtonTextStyle: {

@@ -41,11 +41,11 @@ class HomeScreen extends React.Component {
     return (
       <View>
         <View style={styles.DirectionContainer}>
-          <TouchableOpacity onPress={this._onProfilePress}>
-            <Text style={styles.TextStyle}>Profile</Text>
+          <TouchableOpacity style={styles.directionLeftButton} onPress={this._onProfilePress}>
+            <Text style={styles.directionLeftTextStyle}>Profile</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this._onFriendPress}>
-            <Text style={styles.TextStyle}>Friends</Text>
+          <TouchableOpacity style={styles.directionRightButton} onPress={this._onFriendPress}>
+            <Text style={styles.directionRightTextStyle}>Friends</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.profileContainer}>

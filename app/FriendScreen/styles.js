@@ -11,8 +11,19 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   DirectionContainer: {
-    padding: 5,
-    width: '100%'
+    alignItems: 'flex-start'
+  },
+  directionLeftButton: {
+    paddingTop: 5,
+    paddingRight: 5,
+    paddingLeft: 5,
+    borderTopWidth: 0.5,
+    borderRightWidth: 0.5,
+    borderTopRightRadius: 10,
+    borderColor: 'black'
+  },
+  directionLeftTextStyle: {
+    fontFamily: 'gotham-medium'
   },
   TextStyle: {
     fontFamily: 'gotham-medium'

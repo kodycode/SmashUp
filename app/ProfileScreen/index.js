@@ -33,8 +33,8 @@ class ProfileScreen extends React.Component {
         </TouchableOpacity>
         <View style={styles.ProfileContainer}>
           <View style={styles.DirectionContainer}>
-            <TouchableOpacity onPress={this._onHomeButton}>
-              <Text style={styles.HomeStyle}>Home</Text>
+            <TouchableOpacity style={styles.directionRightButton} onPress={this._onHomeButton}>
+              <Text style={styles.directionRightTextStyle}>Home</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.AvatarContainer}>
