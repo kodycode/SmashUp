@@ -1,4 +1,5 @@
 import React from 'react'
+import ActionSheet from 'react-native-actionsheet'
 import { Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native'
 import styles from './styles'
 
@@ -24,7 +25,7 @@ class FriendScreen extends React.Component {
       { name: 'Player11', player_name: 'TBD', found_by: 'Pokemon Trainer' }
     ]}
     renderItem={({ item }) => {
-      return (<TouchableOpacity style={styles.friendBlock}>
+      return (<TouchableOpacity style={styles.friendBlock} onPress={this.showActionSheet}>
         <View style={styles.avatarImg}>
         </View>
         <View style={{ paddingLeft: 5 }}>
@@ -36,6 +37,10 @@ class FriendScreen extends React.Component {
     }}
     keyExtractor={(item, index) => index.toString()}
     />)
+  }
+
+  showActionSheet = () => {
+    this.ActionSheet.show()
   }
 
   render () {
@@ -53,6 +58,14 @@ class FriendScreen extends React.Component {
           >
             {this._getFriendList()}
           </ScrollView>
+          <ActionSheet
+            ref={o => this.ActionSheet = o}
+            title={'Name of Player'}
+            options={['Chat', 'View Profile', 'Remove', 'Cancel']}
+            cancelButtonIndex={3}
+            destructiveButtonIndex={2}
+            onPress={(index) => { /* do something */ }}
+          />
         </View>
       </View>
     )
