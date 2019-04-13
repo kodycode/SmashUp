@@ -6,7 +6,7 @@ class ProfileScreen extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      editable: true
+      editable: false
     }
   }
 
@@ -24,7 +24,7 @@ class ProfileScreen extends React.Component {
   render () {
     return (
       <View>
-        <TouchableOpacity onPress={this.state._onEditButton} style={styles.editButtonContainer}>
+        <TouchableOpacity onPress={this._onEditButton} style={styles.editButtonContainer}>
           <Text style={{ color: 'white' }}>
             {
               this.state.editable ? 'Done' : 'Edit'
