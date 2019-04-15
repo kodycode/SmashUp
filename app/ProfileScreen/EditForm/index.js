@@ -10,6 +10,7 @@ class EditForm extends Component {
       name: '',
       age: '',
       playerName: '',
+      location: '',
       listOfCharacters: [],
       Bio: ''
     }
@@ -66,6 +67,12 @@ class EditForm extends Component {
               placeholder='Enter player name here'
               style={styles.textBoxStyle}
               onChangeText={(playerName) => { this.setState({ playerName }) }}
+            />
+            <Text style={{ fontFamily: 'gotham' }}>Location</Text>
+            <TextInput
+              placeholder='Enter city and state here'
+              style={styles.textBoxStyle}
+              onChangeText={(location) => { this.setState({ location }) }}
             />
             <Text style={{ fontFamily: 'gotham' }}>Bio</Text>
             <TextInput

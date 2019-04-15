@@ -25,6 +25,7 @@ class RegisterForm extends Component {
             name: 'Enter Name',
             age: 'Enter Age',
             playerName: 'Enter Player Name',
+            location: 'Undeclared',
             aboutMe: 'About Me',
             listOfCharacters: [
               'Undecided'
