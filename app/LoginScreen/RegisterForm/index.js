@@ -9,8 +9,7 @@ class RegisterForm extends Component {
     this.state = {
       username: '',
       password: '',
-      confirmPass: '',
-      requestSuccess: false
+      confirmPass: ''
     }
   }
 
@@ -19,7 +18,6 @@ class RegisterForm extends Component {
       var instance = this
       firebase.auth().createUserWithEmailAndPassword(this.state.username.trim(), this.state.password)
         .then(function (res) {
-          instance.setState({ requestSuccess: true })
           instance.props.setRegisterFormVisible(false)
           Alert.alert('Success', 'Registration successful')
         })

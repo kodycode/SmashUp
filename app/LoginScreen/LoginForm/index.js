@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
+import { Alert, Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
+import firebase from 'firebase'
 import styles from './styles'
 
 class LoginForm extends Component {
@@ -13,7 +14,16 @@ class LoginForm extends Component {
 
   _onLogin = () => {
     // TODO: Confirm with firebase that account exists
-    this.props.setLoginFormVisible(false)
+    var instance = this
+    firebase.auth().signInWithEmailAndPassword(this.state.username.trim(), this.state.password)
+      .then(function (res) {
+        instance.props.setLoginFormVisible(false, true)
+      })
+      .catch(function (error) {
+        // Handle Errors here.
+        var errorMessage = error.message
+        Alert.alert('Error', errorMessage)
+      })
   }
 
   render () {
@@ -43,6 +53,7 @@ class LoginForm extends Component {
             <Text style={styles.textMargin}>Password:</Text>
             <TextInput
               placeholder='Enter password here'
+              secureTextEntry={true}
               style={styles.textBoxStyle}
               onChangeText={(password) => { this.setState({ password }) }}
             />
