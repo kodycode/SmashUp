@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Alert, Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
 import firebase from 'firebase'
+import '@firebase/firestore'
 import styles from './styles'
 
 class RegisterForm extends Component {
@@ -9,8 +10,10 @@ class RegisterForm extends Component {
     this.state = {
       username: '',
       password: '',
-      confirmPass: ''
+      confirmPass: '',
+      dbh: firebase.firestore()
     }
+    console.disableYellowBox = true
   }
 
   registerAccount = () => {
@@ -18,6 +21,12 @@ class RegisterForm extends Component {
       var instance = this
       firebase.auth().createUserWithEmailAndPassword(this.state.username.trim(), this.state.password)
         .then(function (res) {
+          instance.state.dbh.collection('users').doc('me').set({
+            name: 'Enter Name',
+            age: 'Enter Age',
+            playerName: 'Enter Player Name',
+            aboutMe: 'About Me'
+          })
           instance.props.setRegisterFormVisible(false)
           Alert.alert('Success', 'Registration successful')
         })
