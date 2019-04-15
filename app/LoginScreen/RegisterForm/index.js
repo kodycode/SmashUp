@@ -21,11 +21,14 @@ class RegisterForm extends Component {
       var instance = this
       firebase.auth().createUserWithEmailAndPassword(this.state.username.trim(), this.state.password)
         .then(function (res) {
-          instance.state.dbh.collection('users').doc('me').set({
+          instance.state.dbh.collection('users').doc(this.state.username.trim()).set({
             name: 'Enter Name',
             age: 'Enter Age',
             playerName: 'Enter Player Name',
-            aboutMe: 'About Me'
+            aboutMe: 'About Me',
+            listOfCharacters: [
+              'Undecided'
+            ]
           })
           instance.props.setRegisterFormVisible(false)
           Alert.alert('Success', 'Registration successful')
