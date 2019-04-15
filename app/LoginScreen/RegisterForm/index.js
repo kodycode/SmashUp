@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
+import { Alert, Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
+import firebase from 'firebase'
 import styles from './styles'
 
 class RegisterForm extends Component {
@@ -8,13 +9,28 @@ class RegisterForm extends Component {
     this.state = {
       username: '',
       password: '',
-      confirmPass: ''
+      confirmPass: '',
+      requestSuccess: false
     }
   }
 
   registerAccount = () => {
-    // TODO: Send firebase account details
-    this.props.setRegisterFormVisible(false)
+    if (this.state.password === this.state.confirmPass) {
+      var instance = this
+      firebase.auth().createUserWithEmailAndPassword(this.state.username.trim(), this.state.password)
+        .then(function (res) {
+          instance.setState({ requestSuccess: true })
+          instance.props.setRegisterFormVisible(false)
+          Alert.alert('Success', 'Registration successful')
+        })
+        .catch(function (error) {
+          // Handle Errors here.
+          var errorMessage = error.message
+          Alert.alert('Error', errorMessage)
+        })
+    } else {
+      Alert.alert('Error', 'Passwords do not match. Please make sure both passwords are the same.')
+    }
   }
 
   render () {
@@ -46,12 +62,14 @@ class RegisterForm extends Component {
             <Text style={styles.textMargin}>Password:</Text>
             <TextInput
               placeholder='Enter password here'
+              secureTextEntry={true}
               style={styles.textBoxStyle}
               onChangeText={(password) => { this.setState({ password }) }}
             />
             <Text style={styles.textMargin}>Confirm Password:</Text>
             <TextInput
               placeholder='Re-enter password'
+              secureTextEntry={true}
               style={styles.textBoxStyle}
               onChangeText={(confirmPass) => { this.setState({ confirmPass }) }}
             />
