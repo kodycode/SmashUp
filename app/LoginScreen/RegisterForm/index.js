@@ -19,9 +19,9 @@ class RegisterForm extends Component {
   registerAccount = () => {
     if (this.state.password === this.state.confirmPass) {
       var instance = this
-      firebase.auth().createUserWithEmailAndPassword(this.state.username.trim(), this.state.password)
+      firebase.auth().createUserWithEmailAndPassword(instance.state.username.trim(), instance.state.password)
         .then(function (res) {
-          instance.state.dbh.collection('users').doc(this.state.username.trim()).set({
+          instance.state.dbh.collection('users').doc(instance.state.username.trim()).set({
             name: 'Enter Name',
             age: 'Enter Age',
             playerName: 'Enter Player Name',

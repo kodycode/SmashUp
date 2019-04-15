@@ -1,12 +1,14 @@
 import React from 'react'
-import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Image, Text, TouchableOpacity } from 'react-native'
+import EditForm from './EditForm'
 import styles from './styles'
 
 class ProfileScreen extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      editable: false
+      editable: false,
+      editFormVisible: false
     }
   }
 
@@ -17,13 +19,26 @@ class ProfileScreen extends React.Component {
 
   _onEditButton = () => {
     this.setState({
+      editFormVisible: true,
       editable: !this.state.editable
     })
+  }
+
+  setEditFormVisible = (arg) => {
+    this.setState({ editFormVisible: arg })
   }
 
   render () {
     return (
       <View>
+        {
+          this.state.editFormVisible === true
+            ? <EditForm
+              editFormVisible={this.state.editFormVisible}
+              setEditFormVisible={this.setEditFormVisible}
+              onModalDismissed={this.onModalDismissed}/>
+            : null
+        }
         <TouchableOpacity onPress={this._onEditButton} style={styles.editButtonContainer}>
           <Text style={{ color: 'white' }}>
             {
@@ -43,13 +58,11 @@ class ProfileScreen extends React.Component {
           <View style={styles.InfoContainer}>
             <View style={styles.NameContainer}>
               <Text style={styles.NameTextStyle}>Kody, 21</Text>
-              <TextInput editable={this.state.editable} style={styles.NameTextStyle}>Player Name: "Thach"</TextInput>
-              <TextInput editable={this.state.editable} style={styles.NameTextStyle}>List of Characters:</TextInput>
+              <Text style={styles.NameTextStyle}>Player Name: "Thach"</Text>
+              <Text style={styles.NameTextStyle}>List of Characters:</Text>
             </View>
             <View style={styles.BioContainer}>
-              <TextInput multiline={true} editable={this.state.editable} style={styles.BioTextStyle}>
-                About me
-              </TextInput>
+              <Text style={styles.BioTextStyle}>About me</Text>
             </View>
           </View>
         </View>

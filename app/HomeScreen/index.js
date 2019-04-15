@@ -8,7 +8,6 @@ class Card extends React.Component {
   render () {
     return (
       <View style={[styles.card, { backgroundColor: this.props.backgroundColor }]}>
-        <Text style={{ color: 'white' }}>{this.props.text}</Text>
       </View>
     )
   }

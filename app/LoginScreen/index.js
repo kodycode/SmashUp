@@ -21,12 +21,11 @@ class LoginScreen extends React.Component {
     this.setState({ registerFormVisible: true })
   }
 
-  setLoginFormVisible = (dismissLoginForm, loginSuccess) => {
+  setLoginFormVisible = (dismissLoginForm, loginSuccess, userData) => {
     const { navigate } = this.props.navigation
     this.setState({ loginFormVisible: dismissLoginForm })
-    // TODO: Confirm with firebase that account exists before proceeding to next screen
     if (loginSuccess) {
-      navigate('Home')
+      navigate('Profile', userData)
     }
   }
 
