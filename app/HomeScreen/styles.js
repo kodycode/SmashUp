@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderRightWidth: 0.5,
     borderTopRightRadius: 10,
-    borderColor: 'black'
+    borderColor: 'lightgray'
   },
   directionRightButton: {
     paddingRight: 5,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderLeftWidth: 0.5,
     borderTopLeftRadius: 10,
-    borderColor: 'black'
+    borderColor: 'lightgray'
   },
   directionLeftTextStyle: {
     fontFamily: 'gotham-medium'

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderRightWidth: 0.5,
     borderTopRightRadius: 10,
-    borderColor: 'black'
+    borderColor: 'lightgray'
   },
   directionLeftTextStyle: {
     fontFamily: 'gotham-medium'
