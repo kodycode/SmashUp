@@ -2,6 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { createStackNavigator, createAppContainer } from 'react-navigation'
 import { Font } from 'expo'
+import * as firebase from 'firebase'
 import LoginScreen from './app/LoginScreen'
 import HomeScreen from './app/HomeScreen'
 import ProfileScreen from './app/ProfileScreen'
@@ -28,6 +29,7 @@ export default class AppContainer extends React.Component {
   }
   componentDidMount () {
     this.loadAssetsAsync()
+    this.initializeFirebase()
   }
 
   loadAssetsAsync = async () => {
@@ -37,6 +39,19 @@ export default class AppContainer extends React.Component {
     })
     this.setState({ fontLoaded: true })
   }
+
+  initializeFirebase = () => {
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: '<YOUR-API-KEY>',
+      authDomain: '<YOUR-AUTH-DOMAIN>',
+      databaseURL: '<YOUR-DATABASE-URL>',
+      storageBucket: '<YOUR-STORAGE-BUCKET>'
+    }
+
+    firebase.initializeApp(firebaseConfig)
+  }
+
   render () {
     if (!this.state.fontLoaded) {
       return <View />
