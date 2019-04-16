@@ -1,20 +1,23 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+
+const { width, height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   EditFormContainer: {
-    flex: 1,
     flexDirection: 'column',
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    alignItems: 'center',
-    marginTop: 50
+    marginTop: -(height * 0.7)
   },
   textBoxStyle: {
     borderWidth: 0.5,
     borderColor: 'black',
     padding: 5,
     width: '50%'
+  },
+  bioTextBoxStyle: {
+    borderWidth: 0.5,
+    borderColor: 'black',
+    width: (width * 0.9),
+    padding: 5
   },
   textMargin: {
     marginTop: 20,
@@ -39,6 +42,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-end',
     paddingRight: 15
+  },
+  tempfix: {
+    height: height / 2
   }
 })
 

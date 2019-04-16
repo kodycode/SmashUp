@@ -50,8 +50,6 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   BioContainer: {
-    paddingTop: 10,
-    paddingLeft: 10
   },
   BioTextStyle: {
     fontFamily: 'gotham-medium'

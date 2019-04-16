@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Alert, Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
+import { Alert, Modal, Text, TextInput, TouchableOpacity, View, ImageBackground, ScrollView } from 'react-native'
+import AutoTags from 'react-native-tag-autocomplete'
 import firebase from 'firebase'
 import styles from './styles'
 
@@ -11,8 +12,83 @@ class EditForm extends Component {
       age: '',
       playerName: '',
       location: '',
-      listOfCharacters: [],
-      Bio: ''
+      Bio: '',
+      characterRoster: [
+        { name: 'Mario' },
+        { name: 'Donkey Kong' },
+        { name: 'Link' },
+        { name: 'Samus' },
+        { name: 'Dark Samus' },
+        { name: 'Yoshi' },
+        { name: 'Kirby' },
+        { name: 'Fox' },
+        { name: 'Pikachu' },
+        { name: 'Luigi' },
+        { name: 'Ness' },
+        { name: 'Captain Falcon' },
+        { name: 'Jigglypuff' },
+        { name: 'Daisy' },
+        { name: 'Bowser' },
+        { name: 'Ice Climbers' },
+        { name: 'Sheik' },
+        { name: 'Zelda' },
+        { name: 'Dr. Mario' },
+        { name: 'Pichu' },
+        { name: 'Falco' },
+        { name: 'Marth' },
+        { name: 'Lucina' },
+        { name: 'Young Link' },
+        { name: 'Ganondorf' },
+        { name: 'Metwo' },
+        { name: 'Roy' },
+        { name: 'Chrom' },
+        { name: 'Mr. Game & Watch' },
+        { name: 'Meta Knight' },
+        { name: 'Pit' },
+        { name: 'Dark Pit' },
+        { name: 'Zero Suit Samus' },
+        { name: 'Wario' },
+        { name: 'Ike' },
+        { name: 'Pokemon Trainer' },
+        { name: 'Diddy Kong' },
+        { name: 'Lucas' },
+        { name: 'Sonic' },
+        { name: 'King Dedede' },
+        { name: 'Olimar' },
+        { name: 'Lucario' },
+        { name: 'R.O.B' },
+        { name: 'Toon Link' },
+        { name: 'Wolf' },
+        { name: 'Villager' },
+        { name: 'Mega Man' },
+        { name: 'Wii Fit Trainer' },
+        { name: 'Rosalina & Luma' },
+        { name: 'Little Mac' },
+        { name: 'Greninja' },
+        { name: 'Mii Brawler' },
+        { name: 'Mii Swordfighter' },
+        { name: 'Mii Gunner' },
+        { name: 'Palutena' },
+        { name: 'Pac-Man' },
+        { name: 'Robin' },
+        { name: 'Shulk' },
+        { name: 'Bowser Jr.' },
+        { name: 'Duck Hunt' },
+        { name: 'Ryu' },
+        { name: 'Ken' },
+        { name: 'Cloud' },
+        { name: 'Corrin' },
+        { name: 'Bayonetta' },
+        { name: 'Inkling' },
+        { name: 'Ridley' },
+        { name: 'Simon' },
+        { name: 'Richter' },
+        { name: 'King K. Rool' },
+        { name: 'Isabelle' },
+        { name: 'Incineroar' },
+        { name: 'Piranha Plant' }
+      ],
+      tagsSelected: []
     }
   }
 
@@ -29,6 +105,16 @@ class EditForm extends Component {
     //     var errorMessage = error.message
     //     Alert.alert('Error', errorMessage)
     //   })
+  }
+
+  handleDelete = (index) => {
+    let tagsSelected = this.state.tagsSelected
+    tagsSelected.splice(index, 1)
+    this.setState({ tagsSelected })
+  }
+
+  handleAddition = (suggestion) => {
+    this.setState({ tagsSelected: this.state.tagsSelected.concat([suggestion]) })
   }
 
   render () {
@@ -48,7 +134,10 @@ class EditForm extends Component {
               <Text style={{ fontSize: 40 }}>×</Text>
             </TouchableOpacity>
           </View>
-          <View style={ styles.EditFormContainer }>
+          <ScrollView
+            style={ styles.EditFormContainer }
+            contentContainerStyle={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}
+          >
             <Text style={{ fontFamily: 'gotham' }}>Name</Text>
             <TextInput
               placeholder='Enter real name here'
@@ -58,7 +147,6 @@ class EditForm extends Component {
             <Text style={{ fontFamily: 'gotham' }}>Age</Text>
             <TextInput
               placeholder='Enter age here'
-              secureTextEntry={true}
               style={styles.textBoxStyle}
               onChangeText={(age) => { this.setState({ age }) }}
             />
@@ -74,11 +162,22 @@ class EditForm extends Component {
               style={styles.textBoxStyle}
               onChangeText={(location) => { this.setState({ location }) }}
             />
+            <Text style={{ fontFamily: 'gotham' }}>Characters</Text>
+            <View>
+              <AutoTags
+                suggestions={this.state.characterRoster}
+                tagsSelected={this.state.tagsSelected}
+                handleAddition={this.handleAddition}
+                handleDelete={this.handleDelete}
+                placeholder="Type in the character(s) you play"
+              />
+            </View>
             <Text style={{ fontFamily: 'gotham' }}>Bio</Text>
             <TextInput
               placeholder='Tell us about yourself'
-              secureTextEntry={true}
-              style={styles.textBoxStyle}
+              style={styles.bioTextBoxStyle}
+              maxLength={200}
+              multiline={true}
               onChangeText={(bio) => { this.setState({ bio }) }}
             />
             <TouchableOpacity
@@ -92,7 +191,8 @@ class EditForm extends Component {
                 <Text style={{ color: 'white', fontFamily: 'gotham' }}>Done</Text>
               </ImageBackground>
             </TouchableOpacity>
-          </View>
+            <View style={styles.tempfix}/>
+          </ScrollView>
         </Modal>
       </View>
     )
