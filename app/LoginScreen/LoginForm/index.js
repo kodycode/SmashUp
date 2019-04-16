@@ -18,7 +18,6 @@ class LoginForm extends Component {
     firebase.auth().signInWithEmailAndPassword(this.state.username.trim(), this.state.password)
       .then(function (res) {
         instance.props.setLoginFormVisible(false, true, res)
-        console.log(res)
       })
       .catch(function (error) {
         // Handle Errors here.

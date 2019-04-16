@@ -10,6 +10,7 @@ class ProfileScreen extends React.Component {
       editable: false,
       editFormVisible: false
     }
+    console.disableYellowBox = true
   }
 
   _onHomeButton = () => {
@@ -25,20 +26,18 @@ class ProfileScreen extends React.Component {
   }
 
   setEditFormVisible = (arg) => {
+    console.log(this.props.userData)
     this.setState({ editFormVisible: arg })
   }
 
   render () {
     return (
       <View>
-        {
-          this.state.editFormVisible === true
-            ? <EditForm
-              editFormVisible={this.state.editFormVisible}
-              setEditFormVisible={this.setEditFormVisible}
-              onModalDismissed={this.onModalDismissed}/>
-            : null
-        }
+        <EditForm
+          userData={this.props.navigation.getParam('userData', undefined)}
+          editFormVisible={this.state.editFormVisible}
+          setEditFormVisible={this.setEditFormVisible}
+          onModalDismissed={this.onModalDismissed}/>
         <TouchableOpacity onPress={this._onEditButton} style={styles.editButtonContainer}>
           <Text style={{ color: 'white' }}>
             {

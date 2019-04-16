@@ -25,7 +25,7 @@ class LoginScreen extends React.Component {
     const { navigate } = this.props.navigation
     this.setState({ loginFormVisible: dismissLoginForm })
     if (loginSuccess) {
-      navigate('Profile', userData)
+      navigate('Profile', { userData: userData })
     }
   }
 

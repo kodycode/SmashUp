@@ -13,7 +13,7 @@ class EditForm extends Component {
       age: '',
       playerName: '',
       location: '',
-      Bio: '',
+      bio: '',
       characterRoster: [
         { name: 'All Characters' },
         { name: 'Mario' },
@@ -92,21 +92,21 @@ class EditForm extends Component {
       ],
       tagsSelected: []
     }
+    console.log(this.props)
   }
 
   _onEdit = () => {
     // TODO: Confirm with firebase that account exists
-    // var instance = this
-    // firebase.auth().signInWithEmailAndPassword(this.state.username.trim(), this.state.password)
-    //   .then(function (res) {
-    //     instance.props.setLoginFormVisible(false, true, res)
-    //     console.log(res)
-    //   })
-    //   .catch(function (error) {
-    //     // Handle Errors here.
-    //     var errorMessage = error.message
-    //     Alert.alert('Error', errorMessage)
-    //   })
+    firebase.firestore().collection('users').doc(this.props.userData.user.email.trim()).set({
+      name: this.state.name,
+      age: this.state.age,
+      playerName: this.state.playerName,
+      location: this.state.location,
+      bio: this.state.bio,
+      listOfCharacters: this.state.tagsSelected
+    })
+    this.props.setEditFormVisible(false)
+    Alert.alert('Success', 'Profile Updated')
   }
 
   handleDelete = (index) => {
@@ -140,7 +140,7 @@ class EditForm extends Component {
             style={ styles.EditFormContainer }
           >
             <InputScrollView>
-              <Text style={{ fontFamily: 'gotham' }}>Name</Text>
+              <Text style={{ fontFamily: 'gotham', marginTop: 120 }}>Name</Text>
               <TextInput
                 placeholder='Enter real name here'
                 style={styles.textBoxStyle}
