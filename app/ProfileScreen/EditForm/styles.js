@@ -4,29 +4,26 @@ const { width, height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   EditFormContainer: {
+    flex: 1,
     flexDirection: 'column',
-    marginTop: -(height * 0.7)
+    height: height,
+    width: width,
+    marginTop: -(height * 0.8)
   },
   textBoxStyle: {
     borderWidth: 0.5,
     borderColor: 'black',
     padding: 5,
-    width: '50%'
-  },
-  bioTextBoxStyle: {
-    borderWidth: 0.5,
-    borderColor: 'black',
-    width: (width * 0.9),
-    padding: 5
+    width: width * 0.94
   },
   textMargin: {
     marginTop: 20,
     fontFamily: 'gotham'
   },
-  editButtonMargin: {
-    width: '30%',
-    height: '10%',
-    marginTop: 40,
+  doneButtonMargin: {
+    marginTop: 15,
+    width: width * 0.3,
+    height: height * 0.1,
     borderWidth: 0.5,
     borderColor: 'black',
     alignItems: 'center',

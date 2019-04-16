@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Alert, Modal, Text, TextInput, TouchableOpacity, View, ImageBackground, ScrollView } from 'react-native'
 import AutoTags from 'react-native-tag-autocomplete'
+import InputScrollView from 'react-native-input-scroll-view'
 import firebase from 'firebase'
 import styles from './styles'
 
@@ -14,6 +15,7 @@ class EditForm extends Component {
       location: '',
       Bio: '',
       characterRoster: [
+        { name: 'All Characters' },
         { name: 'Mario' },
         { name: 'Donkey Kong' },
         { name: 'Link' },
@@ -136,62 +138,64 @@ class EditForm extends Component {
           </View>
           <ScrollView
             style={ styles.EditFormContainer }
-            contentContainerStyle={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}
           >
-            <Text style={{ fontFamily: 'gotham' }}>Name</Text>
-            <TextInput
-              placeholder='Enter real name here'
-              style={styles.textBoxStyle}
-              onChangeText={(name) => { this.setState({ name }) }}
-            />
-            <Text style={{ fontFamily: 'gotham' }}>Age</Text>
-            <TextInput
-              placeholder='Enter age here'
-              style={styles.textBoxStyle}
-              onChangeText={(age) => { this.setState({ age }) }}
-            />
-            <Text style={{ fontFamily: 'gotham' }}>Player Name</Text>
-            <TextInput
-              placeholder='Enter player name here'
-              style={styles.textBoxStyle}
-              onChangeText={(playerName) => { this.setState({ playerName }) }}
-            />
-            <Text style={{ fontFamily: 'gotham' }}>Location</Text>
-            <TextInput
-              placeholder='Enter city and state here'
-              style={styles.textBoxStyle}
-              onChangeText={(location) => { this.setState({ location }) }}
-            />
-            <Text style={{ fontFamily: 'gotham' }}>Characters</Text>
-            <View>
-              <AutoTags
-                suggestions={this.state.characterRoster}
-                tagsSelected={this.state.tagsSelected}
-                handleAddition={this.handleAddition}
-                handleDelete={this.handleDelete}
-                placeholder="Type in the character(s) you play"
+            <InputScrollView>
+              <Text style={{ fontFamily: 'gotham' }}>Name</Text>
+              <TextInput
+                placeholder='Enter real name here'
+                style={styles.textBoxStyle}
+                onChangeText={(name) => { this.setState({ name }) }}
               />
-            </View>
-            <Text style={{ fontFamily: 'gotham' }}>Bio</Text>
-            <TextInput
-              placeholder='Tell us about yourself'
-              style={styles.bioTextBoxStyle}
-              maxLength={200}
-              multiline={true}
-              onChangeText={(bio) => { this.setState({ bio }) }}
-            />
-            <TouchableOpacity
-              onPress={() => { this._onEdit() }}
-              style={styles.editButtonMargin}
-            >
-              <ImageBackground
-                source={require('../../../assets/img/button_background.png')}
-                style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}
-              >
-                <Text style={{ color: 'white', fontFamily: 'gotham' }}>Done</Text>
-              </ImageBackground>
-            </TouchableOpacity>
-            <View style={styles.tempfix}/>
+              <Text style={{ fontFamily: 'gotham' }}>Age</Text>
+              <TextInput
+                placeholder='Enter age here'
+                style={styles.textBoxStyle}
+                onChangeText={(age) => { this.setState({ age }) }}
+              />
+              <Text style={{ fontFamily: 'gotham' }}>Player Name</Text>
+              <TextInput
+                placeholder='Enter player name here'
+                style={styles.textBoxStyle}
+                onChangeText={(playerName) => { this.setState({ playerName }) }}
+              />
+              <Text style={{ fontFamily: 'gotham' }}>Location</Text>
+              <TextInput
+                placeholder='Enter city and state here'
+                style={styles.textBoxStyle}
+                onChangeText={(location) => { this.setState({ location }) }}
+              />
+              <Text style={{ fontFamily: 'gotham' }}>Characters</Text>
+              <View>
+                <AutoTags
+                  suggestions={this.state.characterRoster}
+                  tagsSelected={this.state.tagsSelected}
+                  handleAddition={this.handleAddition}
+                  handleDelete={this.handleDelete}
+                  placeholder="Type in the character(s) you play"
+                />
+              </View>
+              <Text style={{ fontFamily: 'gotham' }}>Bio</Text>
+              <TextInput
+                placeholder='Tell us about yourself'
+                style={styles.textBoxStyle}
+                maxLength={200}
+                multiline={true}
+                onChangeText={(bio) => { this.setState({ bio }) }}
+              />
+              <View style = {{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity
+                  onPress={() => { this._onEdit() }}
+                  style={styles.doneButtonMargin}
+                >
+                  <ImageBackground
+                    source={require('../../../assets/img/button_background.png')}
+                    style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <Text style={{ color: 'white', fontFamily: 'gotham' }}>Done</Text>
+                  </ImageBackground>
+                </TouchableOpacity>
+              </View>
+            </InputScrollView>
           </ScrollView>
         </Modal>
       </View>
