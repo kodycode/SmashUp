@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Image, Text, TouchableOpacity } from 'react-native'
+import { Alert, View, Image, Text, TouchableOpacity } from 'react-native'
+import firebase from 'firebase'
 import EditForm from './EditForm'
 import styles from './styles'
 
@@ -8,7 +9,9 @@ class ProfileScreen extends React.Component {
     super(props)
     this.state = {
       editable: false,
-      editFormVisible: false
+      editFormVisible: false,
+      userData: this.props.navigation.getParam('userData', undefined),
+      profileData: {}
     }
     console.disableYellowBox = true
   }
@@ -25,19 +28,47 @@ class ProfileScreen extends React.Component {
     })
   }
 
+  componentDidMount = () => {
+    this.checkProfileData()
+  }
+
+  getProfileData = () => {
+    const userData = this.props.navigation.getParam('userData', undefined)
+    firebase.firestore().collection('users').doc(userData.user.email.trim().toLowerCase()).get()
+      .then(doc => {
+        if (!doc.exists) {
+          Alert.alert('Unexpected failure to obtain user data.')
+        } else {
+          console.log(doc.data())
+          this.setState({ profileData: doc.data() })
+        }
+      })
+      .catch(err => {
+        Alert.alert('Error', err.message)
+      })
+  }
+
   setEditFormVisible = (arg) => {
-    console.log(this.props.userData)
     this.setState({ editFormVisible: arg })
+  }
+
+  checkProfileData = () => {
+    this.getProfileData()
+    Alert.alert('test')
+    // if (userData.userData.additionalUserInfo.isNewUser) {
+    //   Alert.alert('Alert', 'Please enter your profile information before using the app.')
+    //   this.setEditFormVisible(true)
+    // }
   }
 
   render () {
     return (
       <View>
         <EditForm
-          userData={this.props.navigation.getParam('userData', undefined)}
+          userData={this.state.userData}
           editFormVisible={this.state.editFormVisible}
           setEditFormVisible={this.setEditFormVisible}
-          onModalDismissed={this.onModalDismissed}/>
+          checkProfileData={this.checkProfileData}/>
         <TouchableOpacity onPress={this._onEditButton} style={styles.editButtonContainer}>
           <Text style={{ color: 'white' }}>
             {

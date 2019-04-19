@@ -6,9 +6,9 @@ const styles = StyleSheet.create({
   EditFormContainer: {
     flex: 1,
     flexDirection: 'column',
-    height: height,
     width: width,
-    marginTop: -(height * 0.8)
+    height: height,
+    marginTop: (width * 0.2)
   },
   textBoxStyle: {
     borderWidth: 0.5,
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'black'
   },
   closeButtonContainer: {
-    flex: 1,
     alignItems: 'flex-end'
   },
   closeButtonMargin: {
