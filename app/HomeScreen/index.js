@@ -1,10 +1,13 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { Alert, View, Text, TouchableOpacity, BackHandler } from 'react-native'
 import styles from './styles'
 
 import SwipeCards from 'react-native-swipe-cards'
 
 class Card extends React.Component {
+  _didFocusSubscription
+  _willBlurSubscription
+
   render () {
     return (
       <View style={[styles.card, { backgroundColor: this.props.backgroundColor }]}>
@@ -26,14 +29,32 @@ class HomeScreen extends React.Component {
     this.swipeCardRef = React.createRef()
   }
 
+  componentWillMount = () => {
+    this._didFocusSubscription = this.props.navigation.addListener('didFocus', payload =>
+      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+    )
+  }
+
+  componentWillUnmount = () => {
+    this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+      BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+    )
+  }
+
+  onBackButtonPressAndroid = () => {
+    return true
+  }
+
   _onProfilePress = () => {
     const { navigate } = this.props.navigation
-    navigate('Profile')
+    const userData = this.props.navigation.getParam('userData', undefined)
+    navigate('Profile', { userData: userData })
   }
 
   _onFriendPress = () => {
     const { navigate } = this.props.navigation
-    navigate('Friend')
+    const userData = this.props.navigation.getParam('userData', undefined)
+    navigate('Friend', { userData: userData })
   }
 
   render () {

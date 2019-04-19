@@ -33,8 +33,7 @@ class ProfileScreen extends React.Component {
   }
 
   getProfileData = () => {
-    const userData = this.props.navigation.getParam('userData', undefined)
-    firebase.firestore().collection('users').doc(userData.user.email.trim().toLowerCase()).get()
+    firebase.firestore().collection('users').doc(this.state.userData.user.email.trim().toLowerCase()).get()
       .then(doc => {
         if (!doc.exists) {
           Alert.alert('Unexpected failure to obtain user data.')
