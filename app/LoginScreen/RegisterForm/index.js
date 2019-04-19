@@ -9,7 +9,7 @@ class RegisterForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      name: '',
+      realName: '',
       age: '',
       username: '',
       password: '',
@@ -22,16 +22,17 @@ class RegisterForm extends Component {
   registerAccount = () => {
     if (this.state.password === this.state.confirmPass) {
       var instance = this
+
       firebase.auth().createUserWithEmailAndPassword(instance.state.username.trim().toLowerCase(), instance.state.password)
         .then(function (res) {
           instance.state.dbh.collection('users').doc(instance.state.username.trim().toLowerCase()).set({
-            name: this.state.name.trim(),
+            realName: this.state.name.trim(),
             age: this.state.age.trim(),
             playerName: 'Enter Player Name',
             location: 'Undeclared',
             bio: 'About Me',
             listOfCharacters: [
-              'Undecided'
+              { name: 'All Characters' }
             ]
           })
           instance.props.setRegisterFormVisible(false)

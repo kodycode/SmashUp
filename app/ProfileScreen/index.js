@@ -54,11 +54,10 @@ class ProfileScreen extends React.Component {
 
   checkProfileData = () => {
     this.getProfileData()
-    Alert.alert('test')
-    // if (userData.userData.additionalUserInfo.isNewUser) {
-    //   Alert.alert('Alert', 'Please enter your profile information before using the app.')
-    //   this.setEditFormVisible(true)
-    // }
+    if (this.state.userData.additionalUserInfo.isNewUser) {
+      Alert.alert('Alert', 'Please enter your profile information before using the app.')
+      this.setEditFormVisible(true)
+    }
   }
 
   render () {
@@ -70,11 +69,7 @@ class ProfileScreen extends React.Component {
           setEditFormVisible={this.setEditFormVisible}
           checkProfileData={this.checkProfileData}/>
         <TouchableOpacity onPress={this._onEditButton} style={styles.editButtonContainer}>
-          <Text style={{ color: 'white' }}>
-            {
-              this.state.editable ? 'Done' : 'Edit'
-            }
-          </Text>
+          <Text style={{ color: 'white' }}>Edit</Text>
         </TouchableOpacity>
         <View style={styles.ProfileContainer}>
           <View style={styles.DirectionContainer}>
@@ -87,12 +82,12 @@ class ProfileScreen extends React.Component {
           </View>
           <View style={styles.InfoContainer}>
             <View style={styles.NameContainer}>
-              <Text style={styles.NameTextStyle}>Kody, 21</Text>
-              <Text style={styles.NameTextStyle}>Player Name: "Thach"</Text>
+              <Text style={styles.NameTextStyle}>{this.state.profileData.realName}, {this.state.profileData.age}</Text>
+              <Text style={styles.NameTextStyle}>Player Name: {this.state.profileData.playerName}</Text>
               <Text style={styles.NameTextStyle}>List of Characters:</Text>
             </View>
             <View style={styles.BioContainer}>
-              <Text style={styles.BioTextStyle}>About me</Text>
+              <Text style={styles.BioTextStyle}>{this.state.profileData.bio}</Text>
             </View>
           </View>
         </View>

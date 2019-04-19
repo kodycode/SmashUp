@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Modal, Text, TextInput, TouchableOpacity, View, ImageBackground, ScrollView } from 'react-native'
+import { Alert, Modal, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
 import AutoTags from 'react-native-tag-autocomplete'
 import InputScrollView from 'react-native-input-scroll-view'
 import firebase from 'firebase'
@@ -86,20 +86,28 @@ class EditForm extends Component {
         { name: 'King K. Rool' },
         { name: 'Isabelle' },
         { name: 'Incineroar' },
-        { name: 'Piranha Plant' }
+        { name: 'Piranha Plant' },
+        { name: 'Joker' }
       ],
       tagsSelected: []
     }
   }
 
   _onEdit = () => {
-    // TODO: Confirm with firebase that account exists
-    firebase.firestore().collection('users').doc(this.props.userData.user.email.trim()).set({
-      playerName: this.state.playerName.trim(),
-      location: this.state.location.trim(),
-      bio: this.state.bio.trim(),
-      listOfCharacters: this.state.tagsSelected
-    })
+    var newUpdate = {}
+    if (this.state.playerName.trim().replace(/\s/g, '').length && this.state.playerName.trim()) {
+      newUpdate.playerName = this.state.playerName.trim()
+    }
+    if (this.state.location.trim().replace(/\s/g, '').length && this.state.location.trim()) {
+      newUpdate.location = this.state.location.trim()
+    }
+    if (this.state.bio.trim().replace(/\s/g, '').length && this.state.bio.trim()) {
+      newUpdate.bio = this.state.bio.trim()
+    }
+    if (this.state.tagsSelected.length) {
+      newUpdate.listOfCharacters = this.state.tagsSelected
+    }
+    firebase.firestore().collection('users').doc(this.props.userData.user.email.trim()).update(newUpdate)
     this.props.setEditFormVisible(false)
     Alert.alert('Success', 'Profile Updated')
     this.props.checkProfileData()

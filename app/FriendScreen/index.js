@@ -59,7 +59,7 @@ class FriendScreen extends React.Component {
             {this._getFriendList()}
           </ScrollView>
           <ActionSheet
-            ref={o => this.ActionSheet = o}
+            ref={o => { this.ActionSheet = o }}
             title={'Name of Player'}
             options={['Chat', 'View Profile', 'Remove', 'Cancel']}
             cancelButtonIndex={3}
