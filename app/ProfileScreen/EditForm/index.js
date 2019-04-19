@@ -12,6 +12,7 @@ class EditForm extends Component {
       playerName: '',
       location: '',
       bio: '',
+      tagsSelected: [],
       characterRoster: [
         { name: 'All Characters' },
         { name: 'Mario' },
@@ -88,8 +89,7 @@ class EditForm extends Component {
         { name: 'Incineroar' },
         { name: 'Piranha Plant' },
         { name: 'Joker' }
-      ],
-      tagsSelected: []
+      ]
     }
   }
 
@@ -120,7 +120,14 @@ class EditForm extends Component {
   }
 
   handleAddition = (suggestion) => {
-    this.setState({ tagsSelected: this.state.tagsSelected.concat([suggestion]) })
+    // Only select up to three characters
+    if (this.state.tagsSelected.findIndex(x => x === suggestion) === -1) {
+      if (suggestion.name === 'All Characters') {
+        this.setState({ tagsSelected: [suggestion] })
+      } else if (this.state.tagsSelected.length < 3) {
+        this.setState({ tagsSelected: this.state.tagsSelected.concat([suggestion]) })
+      }
+    }
   }
 
   render () {

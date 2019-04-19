@@ -13,7 +13,6 @@ class LoginForm extends Component {
   }
 
   _onLogin = () => {
-    // TODO: Confirm with firebase that account exists
     var instance = this
     firebase.auth().signInWithEmailAndPassword(this.state.username.trim(), this.state.password)
       .then(function (res) {

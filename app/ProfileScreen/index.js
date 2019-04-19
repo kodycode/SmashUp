@@ -85,6 +85,11 @@ class ProfileScreen extends React.Component {
               <Text style={styles.NameTextStyle}>{this.state.profileData.realName}, {this.state.profileData.age}</Text>
               <Text style={styles.NameTextStyle}>Player Name: {this.state.profileData.playerName}</Text>
               <Text style={styles.NameTextStyle}>List of Characters:</Text>
+              <Text style={styles.NameTextStyle}>{
+                this.state.profileData.listOfCharacters
+                  ? this.state.profileData.listOfCharacters.map((character, i) => {
+                    return i + 1 !== this.state.profileData.listOfCharacters.length ? character.name + ', ' : character.name
+                  }) : null}</Text>
             </View>
             <View style={styles.BioContainer}>
               <Text style={styles.BioTextStyle}>{this.state.profileData.bio}</Text>
