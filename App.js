@@ -7,14 +7,16 @@ import LoginScreen from './app/LoginScreen'
 import HomeScreen from './app/HomeScreen'
 import ProfileScreen from './app/ProfileScreen'
 import FriendScreen from './app/FriendScreen'
+import ChatWindow from './app/FriendScreen/ChatWindow'
 
 const MainNavigator = createStackNavigator({
   Login: { screen: LoginScreen },
   Home: { screen: HomeScreen },
   Profile: { screen: ProfileScreen },
-  Friend: { screen: FriendScreen }
+  Friend: { screen: FriendScreen },
+  Chat: { screen: ChatWindow }
 }, {
-  initialRouteName: 'Login',
+  initialRouteName: 'Chat',
   headerMode: 'none'
 })
 
@@ -27,6 +29,7 @@ export default class AppContainer extends React.Component {
       fontLoaded: false
     }
   }
+
   componentDidMount () {
     this.loadAssetsAsync()
     this.initializeFirebase()

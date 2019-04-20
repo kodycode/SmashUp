@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, View, Text, TouchableOpacity, BackHandler } from 'react-native'
+import { View, Text, TouchableOpacity, BackHandler } from 'react-native'
 import styles from './styles'
 
 import SwipeCards from 'react-native-swipe-cards'

@@ -38,7 +38,6 @@ class ProfileScreen extends React.Component {
         if (!doc.exists) {
           Alert.alert('Unexpected failure to obtain user data.')
         } else {
-          console.log(doc.data())
           this.setState({ profileData: doc.data() })
         }
       })

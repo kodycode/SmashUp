@@ -3,10 +3,29 @@ import ActionSheet from 'react-native-actionsheet'
 import { Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native'
 import styles from './styles'
 
+const options = ['Chat', 'View Profile', 'Remove', 'Cancel']
+
 class FriendScreen extends React.Component {
   _onHomePress = () => {
     const { navigate } = this.props.navigation
     navigate('Home')
+  }
+
+  _actionSheetOnPress = (index) => {
+    switch (index) {
+    case 0:
+      const { navigate } = this.props.navigation
+      navigate('Chat')
+      break
+    case 1:
+      // make profile modal of other player
+      break
+    case 2:
+      // remove player
+      break
+    default:
+      break
+    }
   }
 
   _getFriendList = () => {
@@ -61,10 +80,10 @@ class FriendScreen extends React.Component {
           <ActionSheet
             ref={o => { this.ActionSheet = o }}
             title={'Name of Player'}
-            options={['Chat', 'View Profile', 'Remove', 'Cancel']}
+            options={options}
             cancelButtonIndex={3}
             destructiveButtonIndex={2}
-            onPress={(index) => { /* do something */ }}
+            onPress={(index) => this._actionSheetOnPress(index)}
           />
         </View>
       </View>
