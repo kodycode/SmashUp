@@ -12,13 +12,13 @@ class FriendScreen extends React.Component {
   }
 
   _actionSheetOnPress = (index) => {
+    const { navigate } = this.props.navigation
     switch (index) {
     case 0:
-      const { navigate } = this.props.navigation
       navigate('Chat')
       break
     case 1:
-      // make profile modal of other player
+      navigate('TempProfile')
       break
     case 2:
       // remove player

@@ -1,38 +1,53 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, BackHandler } from 'react-native'
+import { Alert, View, Text, TouchableOpacity, TouchableWithoutFeedback, BackHandler } from 'react-native'
+import firebase from 'firebase'
 import styles from './styles'
-
 import SwipeCards from 'react-native-swipe-cards'
 
 class Card extends React.Component {
-  _didFocusSubscription
-  _willBlurSubscription
-
   render () {
     return (
-      <View style={[styles.card, { backgroundColor: this.props.backgroundColor }]}>
-      </View>
+      <TouchableWithoutFeedback>
+        <View style={[styles.card, { backgroundColor: 'black' }]}>
+          <Text style={styles.textOverlay}>{this.props.name}, {this.props.age}</Text>
+        </View>
+      </TouchableWithoutFeedback>
     )
   }
 }
 
 class HomeScreen extends React.Component {
+  _didFocusSubscription
+  _willBlurSubscription
+
   constructor (props) {
     super(props)
     this.state = {
+      collectionData: {},
       cards: [
-        { text: 'Swipe left/right', backgroundColor: 'salmon' },
-        { text: 'Swipe left/right', backgroundColor: 'lightskyblue' },
-        { text: 'Swipe left/right', backgroundColor: 'lightgreen' }
+        { text: this.props.playerName, backgroundColor: 'salmon' }
       ]
     }
     this.swipeCardRef = React.createRef()
+    console.disableYellowBox = true
   }
 
   componentWillMount = () => {
+    var instance = this
     this._didFocusSubscription = this.props.navigation.addListener('didFocus', payload =>
       BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     )
+    var tempCollectionData = {}
+    firebase.firestore().collection('users').get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          tempCollectionData[doc.id] = doc.data()
+        })
+        instance.setState({
+          collectionData: tempCollectionData,
+          cards: instance.getCards(tempCollectionData)
+        })
+      })
   }
 
   componentWillUnmount = () => {
@@ -57,6 +72,30 @@ class HomeScreen extends React.Component {
     navigate('Friend', { userData: userData })
   }
 
+  getCards = (collectionData) => {
+    var tempCards = []
+    for (var profile in collectionData) {
+      var obj = {}
+      if (collectionData[profile].playerName !== undefined &&
+          collectionData[profile].age !== undefined &&
+          profile !== undefined) {
+        obj.name = collectionData[profile].playerName
+        obj.age = collectionData[profile].age
+        obj.email = profile
+        tempCards.push(obj)
+      }
+    }
+    return tempCards
+  }
+
+  displayProfile = (cardData) => {
+    const { navigate } = this.props.navigation
+    console.log(this.state.collectionData[cardData.current.state.card.email])
+    navigate('TempProfile', {
+      userData: this.state.collectionData[cardData.current.state.card.email]
+    })
+  }
+
   render () {
     return (
       <View>
@@ -74,7 +113,7 @@ class HomeScreen extends React.Component {
             renderCard={(cardData) => <Card {...cardData} />}
             ref={this.swipeCardRef}
             loop={true}
-            onClickHandler={() => {}}
+            onClickHandler={() => this.displayProfile(this.swipeCardRef)}
           />
         </View>
         <View style={styles.buttonContainer}>

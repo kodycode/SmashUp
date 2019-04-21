@@ -77,6 +77,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width,
     height: '100%'
+  },
+  textOverlay: {
+    marginTop: height * 0.5,
+    color: 'white'
   }
 })
 
