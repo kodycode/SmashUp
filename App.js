@@ -6,6 +6,7 @@ import * as firebase from 'firebase'
 import LoginScreen from './app/LoginScreen'
 import HomeScreen from './app/HomeScreen'
 import ProfileScreen from './app/ProfileScreen'
+import TempProfileScreen from './app/TempProfileScreen'
 import FriendScreen from './app/FriendScreen'
 import ChatWindow from './app/FriendScreen/ChatWindow'
 
@@ -13,10 +14,11 @@ const MainNavigator = createStackNavigator({
   Login: { screen: LoginScreen },
   Home: { screen: HomeScreen },
   Profile: { screen: ProfileScreen },
+  TempProfile: { screen: TempProfileScreen },
   Friend: { screen: FriendScreen },
   Chat: { screen: ChatWindow }
 }, {
-  initialRouteName: 'Chat',
+  initialRouteName: 'Login',
   headerMode: 'none'
 })
 

@@ -36,7 +36,9 @@ class FriendScreen extends React.Component {
     firebase.firestore().collection('users').get()
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-          if (userCollectionData.requestsSent.includes(doc.id) && doc.id !== userLoginData.user.email) {
+          if (userCollectionData.requestsSent.includes(doc.id) &&
+              doc.data().requestsSent.includes(userLoginData.user.email) &&
+              doc.id !== userLoginData.user.email) {
             var friendData = doc.data()
             friendData.email = doc.id
             tempFriendList.push(friendData)

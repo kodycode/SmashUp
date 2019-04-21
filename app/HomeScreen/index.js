@@ -94,6 +94,14 @@ class HomeScreen extends React.Component {
     })
   }
 
+  _onYup = (cardData) => {
+    var tempObj = {}
+    const userData = this.props.navigation.getParam('userData', undefined)
+    tempObj.requestsSent = this.state.collectionData[userData.user.email].requestsSent
+    tempObj.requestsSent.push(cardData.current.state.card.email)
+    firebase.firestore().collection('users').doc(userData.user.email.trim()).update(tempObj)
+  }
+
   render () {
     return (
       <View>
@@ -111,6 +119,7 @@ class HomeScreen extends React.Component {
             renderCard={(cardData) => <Card {...cardData} />}
             ref={this.swipeCardRef}
             loop={true}
+            handleYup={() => this._onYup(this.swipeCardRef)}
             onClickHandler={() => this.displayProfile(this.swipeCardRef)}
           />
         </View>
