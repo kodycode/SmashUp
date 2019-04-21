@@ -9,7 +9,7 @@ class Card extends React.Component {
     return (
       <TouchableWithoutFeedback>
         <View style={[styles.card, { backgroundColor: 'black' }]}>
-          <Text style={styles.textOverlay}>{this.props.name}, {this.props.age}</Text>
+          <Text style={styles.textOverlay}>{this.props.playerName}, {this.props.age}</Text>
         </View>
       </TouchableWithoutFeedback>
     )
@@ -79,8 +79,7 @@ class HomeScreen extends React.Component {
       if (collectionData[profile].playerName !== undefined &&
           collectionData[profile].age !== undefined &&
           profile !== undefined) {
-        obj.name = collectionData[profile].playerName
-        obj.age = collectionData[profile].age
+        obj = collectionData[profile]
         obj.email = profile
         tempCards.push(obj)
       }
