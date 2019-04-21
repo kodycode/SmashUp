@@ -33,7 +33,8 @@ class RegisterForm extends Component {
             bio: 'About Me',
             listOfCharacters: [
               { name: 'All Characters' }
-            ]
+            ],
+            requestsSent: []
           })
           instance.props.setRegisterFormVisible(false)
           Alert.alert('Success', 'Registration successful')

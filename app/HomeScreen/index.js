@@ -89,7 +89,6 @@ class HomeScreen extends React.Component {
 
   displayProfile = (cardData) => {
     const { navigate } = this.props.navigation
-    console.log(this.state.collectionData[cardData.current.state.card.email])
     navigate('TempProfile', {
       userData: this.state.collectionData[cardData.current.state.card.email]
     })

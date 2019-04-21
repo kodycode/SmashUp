@@ -164,7 +164,7 @@ class EditForm extends Component {
               style={styles.textBoxStyle}
               onChangeText={(location) => { this.setState({ location }) }}
             />
-            <Text style={{ fontFamily: 'gotham' }}>Characters</Text>
+            <Text style={{ fontFamily: 'gotham' }}>Characters (up to 3)</Text>
             <View>
               <AutoTags
                 suggestions={this.state.characterRoster}

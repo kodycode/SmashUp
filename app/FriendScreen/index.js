@@ -1,11 +1,54 @@
 import React from 'react'
 import ActionSheet from 'react-native-actionsheet'
-import { Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native'
+import { Alert, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native'
+import firebase from 'firebase'
 import styles from './styles'
 
 const options = ['Chat', 'View Profile', 'Remove', 'Cancel']
 
 class FriendScreen extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      userData: {},
+      friendList: [],
+      currentFriend: {}
+    }
+    this.viewList = React.createRef()
+  }
+
+  componentWillMount = () => {
+    var instance = this
+    var tempFriendList = []
+    var userCollectionData = {}
+    const userLoginData = instance.props.navigation.getParam('userData', undefined)
+    firebase.firestore().collection('users').doc(userLoginData.user.email.trim().toLowerCase()).get()
+      .then(doc => {
+        if (!doc.exists) {
+          Alert.alert('Unexpected failure to obtain user data.')
+        } else {
+          userCollectionData = doc.data()
+        }
+      })
+      .catch(err => {
+        Alert.alert('Error', err.message)
+      })
+    firebase.firestore().collection('users').get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          if (userCollectionData.requestsSent.includes(doc.id) && doc.id !== userLoginData.user.email) {
+            var friendData = doc.data()
+            friendData.email = doc.id
+            tempFriendList.push(friendData)
+          }
+        })
+        instance.setState({
+          userData: userCollectionData,
+          friendList: tempFriendList
+        })
+      })
+  }
+
   _onHomePress = () => {
     const { navigate } = this.props.navigation
     navigate('Home')
@@ -18,7 +61,7 @@ class FriendScreen extends React.Component {
       navigate('Chat')
       break
     case 1:
-      navigate('TempProfile')
+      navigate('TempProfile', { userData: this.state.currentFriend })
       break
     case 2:
       // remove player
@@ -30,36 +73,25 @@ class FriendScreen extends React.Component {
 
   _getFriendList = () => {
     // Obtain JSON of friends
-    return (<FlatList data={[
-      { name: 'Player1', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player2', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player3', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player4', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player5', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player6', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player7', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player8', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player9', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player10', player_name: 'TBD', found_by: 'Fox' },
-      { name: 'Player11', player_name: 'TBD', found_by: 'Pokemon Trainer' }
-    ]}
-    renderItem={({ item }) => {
-      return (<TouchableOpacity style={styles.friendBlock} onPress={this.showActionSheet}>
-        <View style={styles.avatarImg}>
-        </View>
-        <View style={{ paddingLeft: 5 }}>
-          <Text style={styles.TextStyle}>Name: {item.name}</Text>
-          <Text style={styles.TextStyle}>Player Name: {item.player_name}</Text>
-          <Text style={styles.TextStyle}>Found By: {item.found_by}</Text>
-        </View>
-      </TouchableOpacity>)
-    }}
-    keyExtractor={(item, index) => index.toString()}
+    return (<FlatList data={this.state.friendList}
+      renderItem={({ item }) => {
+        return (<TouchableOpacity style={styles.friendBlock} onPress={() => this.showActionSheet(item)}>
+          <View style={styles.avatarImg}>
+          </View>
+          <View style={{ paddingLeft: 5 }}>
+            <Text style={styles.TextStyle}>Name: {item.realName}</Text>
+            <Text style={styles.TextStyle}>Player Name: {item.playerName}</Text>
+            <Text style={styles.TextStyle}>Characters: {item.listOfCharacters[0]}</Text>
+          </View>
+        </TouchableOpacity>)
+      }}
+      keyExtractor={(item, index) => index.toString()}
     />)
   }
 
-  showActionSheet = () => {
+  showActionSheet = (item) => {
     this.ActionSheet.show()
+    this.setState({ currentFriend: item })
   }
 
   render () {
@@ -78,8 +110,8 @@ class FriendScreen extends React.Component {
             {this._getFriendList()}
           </ScrollView>
           <ActionSheet
-            ref={o => { this.ActionSheet = o }}
-            title={'Name of Player'}
+            ref={o => (this.ActionSheet = o)}
+            title={this.state.currentFriend.playerName}
             options={options}
             cancelButtonIndex={3}
             destructiveButtonIndex={2}

@@ -19,7 +19,6 @@ class LoginForm extends Component {
         instance.props.setLoginFormVisible(false, true, res)
       })
       .catch(function (error) {
-        // Handle Errors here.
         var errorMessage = error.message
         Alert.alert('Error', errorMessage)
       })
