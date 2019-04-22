@@ -20,32 +20,36 @@ class RegisterForm extends Component {
   }
 
   registerAccount = () => {
-    if (this.state.password === this.state.confirmPass) {
-      var instance = this
-
-      firebase.auth().createUserWithEmailAndPassword(instance.state.username.trim().toLowerCase(), instance.state.password)
-        .then(function (res) {
-          instance.state.dbh.collection('users').doc(instance.state.username.trim().toLowerCase()).set({
-            realName: this.state.name.trim(),
-            age: this.state.age.trim(),
-            playerName: 'Enter Player Name',
-            location: 'Undeclared',
-            bio: 'About Me',
-            listOfCharacters: [
-              { name: 'All Characters' }
-            ],
-            requestsSent: []
+    if (this.state.realName && this.state.age && this.state.username &&
+        this.state.password && this.state.confirmPass) {
+      if (this.state.password === this.state.confirmPass) {
+        var instance = this
+        firebase.auth().createUserWithEmailAndPassword(instance.state.username.trim().toLowerCase(), instance.state.password)
+          .then(function (res) {
+            instance.state.dbh.collection('users').doc(instance.state.username.trim().toLowerCase()).set({
+              realName: instance.state.realName.trim(),
+              age: instance.state.age.trim(),
+              playerName: '',
+              location: 'Undeclared',
+              bio: 'About Me',
+              listOfCharacters: [
+                'All Characters'
+              ],
+              requestsSent: []
+            })
+            instance.props.setRegisterFormVisible(false)
+            Alert.alert('Success', 'Registration successful')
           })
-          instance.props.setRegisterFormVisible(false)
-          Alert.alert('Success', 'Registration successful')
-        })
-        .catch(function (error) {
+          .catch(function (error) {
           // Handle Errors here.
-          var errorMessage = error.message
-          Alert.alert('Error', errorMessage)
-        })
+            var errorMessage = error.message
+            Alert.alert('Error', errorMessage)
+          })
+      } else {
+        Alert.alert('Error', 'Passwords do not match. Please make sure both passwords are the same.')
+      }
     } else {
-      Alert.alert('Error', 'Passwords do not match. Please make sure both passwords are the same.')
+      Alert.alert('Error', 'Some fields have yet to be filled out')
     }
   }
 
@@ -76,12 +80,11 @@ class RegisterForm extends Component {
             <TextInput
               placeholder='Enter first name here'
               style={styles.textBoxStyle}
-              onChangeText={(name) => { this.setState({ name }) }}
+              onChangeText={(realName) => { this.setState({ realName }) }}
             />
             <Text style={styles.textMargin}>Age:</Text>
             <TextInput
               placeholder='Enter age here'
-              secureTextEntry={true}
               style={styles.textBoxStyle}
               onChangeText={(age) => { this.setState({ age }) }}
             />

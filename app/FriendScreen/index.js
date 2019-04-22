@@ -44,6 +44,7 @@ class FriendScreen extends React.Component {
             tempFriendList.push(friendData)
           }
         })
+        console.log(tempFriendList)
         instance.setState({
           userData: userCollectionData,
           friendList: tempFriendList
@@ -58,9 +59,10 @@ class FriendScreen extends React.Component {
 
   _actionSheetOnPress = (index) => {
     const { navigate } = this.props.navigation
+    const userLoginData = this.props.navigation.getParam('userData', undefined)
     switch (index) {
     case 0:
-      navigate('Chat')
+      navigate('Chat', { friendData: this.state.currentFriend, userLoginData: userLoginData })
       break
     case 1:
       navigate('TempProfile', { userData: this.state.currentFriend })
@@ -83,7 +85,7 @@ class FriendScreen extends React.Component {
           <View style={{ paddingLeft: 5 }}>
             <Text style={styles.TextStyle}>Name: {item.realName}</Text>
             <Text style={styles.TextStyle}>Player Name: {item.playerName}</Text>
-            <Text style={styles.TextStyle}>Characters: {item.listOfCharacters[0]}</Text>
+            <Text style={styles.TextStyle}>Characters: {item.listOfCharacters[0].name}</Text>
           </View>
         </TouchableOpacity>)
       }}

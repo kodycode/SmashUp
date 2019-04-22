@@ -9,7 +9,7 @@ class Card extends React.Component {
     return (
       <TouchableWithoutFeedback>
         <View style={[styles.card, { backgroundColor: 'black' }]}>
-          <Text style={styles.textOverlay}>{this.props.playerName}, {this.props.age}</Text>
+          <Text style={styles.textOverlay}>{this.props.realName}, {this.props.age}</Text>
         </View>
       </TouchableWithoutFeedback>
     )
@@ -25,7 +25,7 @@ class HomeScreen extends React.Component {
     this.state = {
       collectionData: {},
       cards: [
-        { text: this.props.playerName, backgroundColor: 'salmon' }
+        { realName: 'No matches yet', age: 'refresh?' }
       ]
     }
     this.swipeCardRef = React.createRef()
@@ -43,10 +43,12 @@ class HomeScreen extends React.Component {
         querySnapshot.forEach(function (doc) {
           tempCollectionData[doc.id] = doc.data()
         })
-        instance.setState({
-          collectionData: tempCollectionData,
-          cards: instance.getCards(tempCollectionData)
-        })
+        if (Object.keys(tempCollectionData).length) {
+          instance.setState({
+            collectionData: tempCollectionData,
+            cards: instance.getCards(tempCollectionData)
+          })
+        }
       })
   }
 
@@ -74,10 +76,12 @@ class HomeScreen extends React.Component {
 
   getCards = (collectionData) => {
     var tempCards = []
+    const userData = this.props.navigation.getParam('userData', undefined)
     for (var profile in collectionData) {
       var obj = {}
       if (collectionData[profile].playerName !== undefined &&
           collectionData[profile].age !== undefined &&
+          profile !== userData.user.email &&
           profile !== undefined) {
         obj = collectionData[profile]
         obj.email = profile
@@ -95,11 +99,13 @@ class HomeScreen extends React.Component {
   }
 
   _onYup = (cardData) => {
-    var tempObj = {}
-    const userData = this.props.navigation.getParam('userData', undefined)
-    tempObj.requestsSent = this.state.collectionData[userData.user.email].requestsSent
-    tempObj.requestsSent.push(cardData.current.state.card.email)
-    firebase.firestore().collection('users').doc(userData.user.email.trim()).update(tempObj)
+    if (Object.keys(this.state.collectionData).length) {
+      var tempObj = {}
+      const userData = this.props.navigation.getParam('userData', undefined)
+      tempObj.requestsSent = this.state.collectionData[userData.user.email].requestsSent
+      tempObj.requestsSent.push(cardData.current.state.card.email)
+      firebase.firestore().collection('users').doc(userData.user.email.trim()).update(tempObj)
+    }
   }
 
   render () {

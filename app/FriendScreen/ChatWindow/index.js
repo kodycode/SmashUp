@@ -1,6 +1,7 @@
 import React from 'react'
-import { Platform, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Platform, Text, TouchableOpacity, View } from 'react-native'
 import { GiftedChat } from 'react-native-gifted-chat'
+import firebase from 'firebase'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import styles from './styles'
 
@@ -9,39 +10,62 @@ class ChatWindow extends React.Component {
     super(props)
     this.state = {
       friendName: '',
-      messages: []
+      messages: [],
+      previousState: [],
+      messageHistory: [],
+      firebaseSvc: {},
+      userLoginData: props.navigation.getParam('userLoginData', undefined),
+      friendData: props.navigation.getParam('friendData', undefined),
+      roomName: ''
     }
+    console.disableYellowBox = true
   }
 
-  componentWillMount () {
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any'
-          }
-        },
-        {
-          _id: 2,
-          text: 'How are you?',
-          createdAt: new Date(),
-          user: {
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any'
+  componentDidMount () {
+    var roomName = ''
+    var regex = /@.*/
+    var userEmailName = this.state.userLoginData.user.email.replace(regex, '')
+    var friendEmailName = this.state.friendData.email.replace(regex, '')
+    var dbInstance = firebase.database()
+    var instance = this
+    var chatRef = {}
+    if (userEmailName > friendEmailName) {
+      roomName = userEmailName + '-' + friendEmailName
+    } else {
+      roomName = friendEmailName + '-' + userEmailName
+    }
+    dbInstance.ref(roomName).once('value', (snap) => {
+      if (snap.val() === null) {
+        console.log(roomName)
+        var roomRef = dbInstance.ref().child(roomName)
+        var newRoomRef = roomRef.push()
+        newRoomRef.set({ roomName: 'to be set' })
+      }
+    })
+    chatRef = dbInstance.ref(roomName)
+    chatRef.on('value', (snapshot) => {
+      var tempMessages = []
+      var snapshotVal = snapshot.val()
+      if (snapshotVal !== null) {
+        for (var key in snapshotVal) {
+          if (snapshotVal.hasOwnProperty(key)) {
+            if (!snapshotVal[key].hasOwnProperty('roomName')) {
+              snapshotVal[key].createdAt = new Date(snapshotVal[key].createdAt)
+              tempMessages.push(snapshotVal[key])
+            }
           }
         }
-      ]
+        instance.setState({ roomName: roomName, messages: tempMessages.reverse() })
+      }
     })
   }
 
-  onSend (messages = []) {
-    this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages)
-    }))
+  onSend (msg) {
+    console.log(this.state.roomName)
+    var chatRef = firebase.database().ref(this.state.roomName)
+    delete msg[0]._id
+    msg[0].createdAt = new Date().getTime()
+    chatRef.push(msg[0])
   }
 
   onPressBackbutton = () => {
@@ -58,15 +82,16 @@ class ChatWindow extends React.Component {
               <Text style={styles.backButton}>←</Text>
             </TouchableOpacity>
             <View style={styles.nameContainer}>
-              <Text style={styles.nameTextStyle}>{this.state.friendName}</Text>
+              <Text style={styles.nameTextStyle}>{this.state.friendData.playerName}</Text>
             </View>
           </View>
         </View>
         <GiftedChat
           messages={this.state.messages}
           onSend={messages => this.onSend(messages)}
+          renderAvatar={() => { return null }}
           user={{
-            _id: 1
+            _id: this.state.userLoginData.user.email
           }}/>
         { Platform.OS === 'android' ? <KeyboardSpacer /> : null }
       </View>
