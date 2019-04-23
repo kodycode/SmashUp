@@ -112,17 +112,14 @@ class HomeScreen extends React.Component {
     console.disableYellowBox = true
   }
 
-  componentWillMount = () => {
+  _getCardData = () => {
     var instance = this
-    this._didFocusSubscription = this.props.navigation.addListener('didFocus', payload =>
-      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
-    )
     var tempCollectionData = {}
     firebase.firestore().collection('users').get()
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-          if (this.state.tagsSelected.length) {
-            this.state.tagsSelected.forEach(function (char) {
+          if (instance.state.tagsSelected.length) {
+            instance.state.tagsSelected.forEach(function (char) {
               if (char in doc.data().listOfCharacters) {
                 tempCollectionData[doc.id] = doc.data()
               }
@@ -133,13 +130,18 @@ class HomeScreen extends React.Component {
             }
           }
         })
-        if (Object.keys(tempCollectionData).length) {
-          instance.setState({
-            collectionData: tempCollectionData,
-            cards: instance.getCards(tempCollectionData)
-          })
-        }
+        instance.setState({
+          collectionData: tempCollectionData,
+          cards: instance.getCards(tempCollectionData)
+        })
       })
+  }
+
+  componentWillMount = () => {
+    this._didFocusSubscription = this.props.navigation.addListener('didFocus', payload =>
+      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+    )
+    this._getCardData()
   }
 
   componentWillUnmount = () => {
@@ -165,6 +167,7 @@ class HomeScreen extends React.Component {
   }
 
   getCards = (collectionData) => {
+    console.log(collectionData)
     var tempCards = []
     const userData = this.props.navigation.getParam('userData', undefined)
     for (var profile in collectionData) {
@@ -201,16 +204,16 @@ class HomeScreen extends React.Component {
   handleDelete = (index) => {
     let tagsSelected = this.state.tagsSelected
     tagsSelected.splice(index, 1)
-    this.setState({ tagsSelected })
+    this.setState({ tagsSelected }, () => this._getCardData())
   }
 
   handleAddition = (suggestion) => {
     // Only select up to three characters
     if (this.state.tagsSelected.findIndex(x => x === suggestion) === -1) {
       if (suggestion.name === 'All Characters') {
-        this.setState({ tagsSelected: [suggestion] })
+        this.setState({ tagsSelected: [suggestion] }, () => this._getCardData())
       } else if (this.state.tagsSelected.length < 3) {
-        this.setState({ tagsSelected: this.state.tagsSelected.concat([suggestion]) })
+        this.setState({ tagsSelected: this.state.tagsSelected.concat([suggestion]) }, () => this._getCardData())
       }
     }
   }
