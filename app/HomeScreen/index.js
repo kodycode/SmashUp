@@ -1,8 +1,10 @@
 import React from 'react'
-import { Alert, View, Text, TouchableOpacity, TouchableWithoutFeedback, BackHandler } from 'react-native'
+import { Alert, Platform, View, Text, TouchableOpacity, TouchableWithoutFeedback, BackHandler } from 'react-native'
+import AutoTags from 'react-native-tag-autocomplete'
 import firebase from 'firebase'
 import styles from './styles'
 import SwipeCards from 'react-native-swipe-cards'
+import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 class Card extends React.Component {
   render () {
@@ -24,8 +26,86 @@ class HomeScreen extends React.Component {
     super(props)
     this.state = {
       collectionData: {},
+      tagsSelected: [],
       cards: [
         { realName: 'No matches yet', age: 'refresh?' }
+      ],
+      characterRoster: [
+        { name: 'All Characters' },
+        { name: 'Mario' },
+        { name: 'Donkey Kong' },
+        { name: 'Link' },
+        { name: 'Samus' },
+        { name: 'Dark Samus' },
+        { name: 'Yoshi' },
+        { name: 'Kirby' },
+        { name: 'Fox' },
+        { name: 'Pikachu' },
+        { name: 'Luigi' },
+        { name: 'Ness' },
+        { name: 'Captain Falcon' },
+        { name: 'Jigglypuff' },
+        { name: 'Daisy' },
+        { name: 'Bowser' },
+        { name: 'Ice Climbers' },
+        { name: 'Sheik' },
+        { name: 'Zelda' },
+        { name: 'Dr. Mario' },
+        { name: 'Pichu' },
+        { name: 'Falco' },
+        { name: 'Marth' },
+        { name: 'Lucina' },
+        { name: 'Young Link' },
+        { name: 'Ganondorf' },
+        { name: 'Metwo' },
+        { name: 'Roy' },
+        { name: 'Chrom' },
+        { name: 'Mr. Game & Watch' },
+        { name: 'Meta Knight' },
+        { name: 'Pit' },
+        { name: 'Dark Pit' },
+        { name: 'Zero Suit Samus' },
+        { name: 'Wario' },
+        { name: 'Ike' },
+        { name: 'Pokemon Trainer' },
+        { name: 'Diddy Kong' },
+        { name: 'Lucas' },
+        { name: 'Sonic' },
+        { name: 'King Dedede' },
+        { name: 'Olimar' },
+        { name: 'Lucario' },
+        { name: 'R.O.B' },
+        { name: 'Toon Link' },
+        { name: 'Wolf' },
+        { name: 'Villager' },
+        { name: 'Mega Man' },
+        { name: 'Wii Fit Trainer' },
+        { name: 'Rosalina & Luma' },
+        { name: 'Little Mac' },
+        { name: 'Greninja' },
+        { name: 'Mii Brawler' },
+        { name: 'Mii Swordfighter' },
+        { name: 'Mii Gunner' },
+        { name: 'Palutena' },
+        { name: 'Pac-Man' },
+        { name: 'Robin' },
+        { name: 'Shulk' },
+        { name: 'Bowser Jr.' },
+        { name: 'Duck Hunt' },
+        { name: 'Ryu' },
+        { name: 'Ken' },
+        { name: 'Cloud' },
+        { name: 'Corrin' },
+        { name: 'Bayonetta' },
+        { name: 'Inkling' },
+        { name: 'Ridley' },
+        { name: 'Simon' },
+        { name: 'Richter' },
+        { name: 'King K. Rool' },
+        { name: 'Isabelle' },
+        { name: 'Incineroar' },
+        { name: 'Piranha Plant' },
+        { name: 'Joker' }
       ]
     }
     this.swipeCardRef = React.createRef()
@@ -108,6 +188,23 @@ class HomeScreen extends React.Component {
     }
   }
 
+  handleDelete = (index) => {
+    let tagsSelected = this.state.tagsSelected
+    tagsSelected.splice(index, 1)
+    this.setState({ tagsSelected })
+  }
+
+  handleAddition = (suggestion) => {
+    // Only select up to three characters
+    if (this.state.tagsSelected.findIndex(x => x === suggestion) === -1) {
+      if (suggestion.name === 'All Characters') {
+        this.setState({ tagsSelected: [suggestion] })
+      } else if (this.state.tagsSelected.length < 3) {
+        this.setState({ tagsSelected: this.state.tagsSelected.concat([suggestion]) })
+      }
+    }
+  }
+
   render () {
     return (
       <View>
@@ -128,6 +225,15 @@ class HomeScreen extends React.Component {
             handleYup={() => this._onYup(this.swipeCardRef)}
             onClickHandler={() => this.displayProfile(this.swipeCardRef)}
           />
+          <View style={styles.filterContainer}>
+            <AutoTags
+              suggestions={this.state.characterRoster}
+              tagsSelected={this.state.tagsSelected}
+              handleAddition={this.handleAddition}
+              handleDelete={this.handleDelete}
+              placeholder="Filter"
+            />
+          </View>
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.buttonStyle} onPress={() => this.swipeCardRef.current._forceLeftSwipe()}>

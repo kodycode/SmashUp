@@ -81,6 +81,11 @@ const styles = StyleSheet.create({
   textOverlay: {
     marginTop: height * 0.5,
     color: 'white'
+  },
+  filterContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width
   }
 })
 
