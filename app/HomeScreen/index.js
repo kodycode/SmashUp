@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback, BackHandler } from 'react-native'
+import { Alert, View, Text, TouchableOpacity, TouchableWithoutFeedback, BackHandler } from 'react-native'
 import AutoTags from 'react-native-tag-autocomplete'
 import firebase from 'firebase'
 import styles from './styles'
@@ -192,11 +192,23 @@ class HomeScreen extends React.Component {
 
   _onYup = (cardData) => {
     if (Object.keys(this.state.collectionData).length) {
-      var tempObj = {}
+      var instance = this
       const userData = this.props.navigation.getParam('userData', undefined)
-      tempObj.requestsSent = this.state.collectionData[userData.user.email].requestsSent
-      tempObj.requestsSent.push(cardData.current.state.card.email)
-      firebase.firestore().collection('users').doc(userData.user.email.trim()).update(tempObj)
+      firebase.firestore().collection('users').doc(userData.user.email.trim().toLowerCase()).get()
+        .then(doc => {
+          if (!doc.exists) {
+            Alert.alert('Unexpected failure to obtain user data.')
+          } else {
+            var tempObj = {}
+            const userData = instance.props.navigation.getParam('userData', undefined)
+            tempObj.requestsSent = doc.data().requestsSent
+            tempObj.requestsSent.push(cardData.current.state.card.email)
+            firebase.firestore().collection('users').doc(userData.user.email.trim()).update(tempObj)
+          }
+        })
+        .catch(err => {
+          Alert.alert('Error', err.message)
+        })
     }
   }
 
