@@ -121,7 +121,17 @@ class HomeScreen extends React.Component {
     firebase.firestore().collection('users').get()
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-          tempCollectionData[doc.id] = doc.data()
+          if (this.state.tagsSelected.length) {
+            this.state.tagsSelected.forEach(function (char) {
+              if (char in doc.data().listOfCharacters) {
+                tempCollectionData[doc.id] = doc.data()
+              }
+            })
+          } else {
+            if (doc.data().listOfCharacters) {
+              tempCollectionData[doc.id] = doc.data()
+            }
+          }
         })
         if (Object.keys(tempCollectionData).length) {
           instance.setState({
@@ -217,14 +227,6 @@ class HomeScreen extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={styles.profileContainer}>
-          <SwipeCards
-            cards={this.state.cards}
-            renderCard={(cardData) => <Card {...cardData} />}
-            ref={this.swipeCardRef}
-            loop={true}
-            handleYup={() => this._onYup(this.swipeCardRef)}
-            onClickHandler={() => this.displayProfile(this.swipeCardRef)}
-          />
           <View style={styles.filterContainer}>
             <AutoTags
               suggestions={this.state.characterRoster}
@@ -234,6 +236,14 @@ class HomeScreen extends React.Component {
               placeholder="Filter"
             />
           </View>
+          <SwipeCards
+            cards={this.state.cards}
+            renderCard={(cardData) => <Card {...cardData} />}
+            ref={this.swipeCardRef}
+            loop={true}
+            handleYup={() => this._onYup(this.swipeCardRef)}
+            onClickHandler={() => this.displayProfile(this.swipeCardRef)}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.buttonStyle} onPress={() => this.swipeCardRef.current._forceLeftSwipe()}>

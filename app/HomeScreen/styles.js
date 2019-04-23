@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
     color: 'lightseagreen'
   },
   profileContainer: {
+    borderTopWidth: 0.5,
+    borderColor: 'lightgrey',
     width: '100%',
     height: '80%'
   },
