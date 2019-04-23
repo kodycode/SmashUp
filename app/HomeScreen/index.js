@@ -1,10 +1,9 @@
 import React from 'react'
-import { Alert, Platform, View, Text, TouchableOpacity, TouchableWithoutFeedback, BackHandler } from 'react-native'
+import { View, Text, TouchableOpacity, TouchableWithoutFeedback, BackHandler } from 'react-native'
 import AutoTags from 'react-native-tag-autocomplete'
 import firebase from 'firebase'
 import styles from './styles'
 import SwipeCards from 'react-native-swipe-cards'
-import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 class Card extends React.Component {
   render () {
@@ -120,7 +119,8 @@ class HomeScreen extends React.Component {
         querySnapshot.forEach(function (doc) {
           if (instance.state.tagsSelected.length) {
             instance.state.tagsSelected.forEach(function (char) {
-              if (char in doc.data().listOfCharacters) {
+              var filteredArr = doc.data().listOfCharacters.filter(obj => obj.name === char.name)
+              if (!tempCollectionData.hasOwnProperty(doc.id) && filteredArr.length) {
                 tempCollectionData[doc.id] = doc.data()
               }
             })
@@ -167,7 +167,6 @@ class HomeScreen extends React.Component {
   }
 
   getCards = (collectionData) => {
-    console.log(collectionData)
     var tempCards = []
     const userData = this.props.navigation.getParam('userData', undefined)
     for (var profile in collectionData) {
