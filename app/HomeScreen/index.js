@@ -171,7 +171,8 @@ class HomeScreen extends React.Component {
   _onProfilePress = () => {
     const { navigate } = this.props.navigation
     const userLoginData = this.props.navigation.getParam('userLoginData', undefined)
-    navigate('Profile', { userLoginData: userLoginData })
+    const userData = this.props.navigation.getParam('userLoginData', undefined)
+    navigate('Profile', { userLoginData: userLoginData, userData: userData })
   }
 
   _onFriendPress = () => {

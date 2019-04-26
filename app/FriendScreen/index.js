@@ -21,7 +21,7 @@ class FriendScreen extends React.Component {
     var instance = this
     var tempFriendList = []
     var userCollectionData = {}
-    const userLoginData = instance.props.navigation.getParam('userData', undefined)
+    const userLoginData = instance.props.navigation.getParam('userLoginData', undefined)
     firebase.firestore().collection('users').doc(userLoginData.user.email.trim().toLowerCase()).get()
       .then(doc => {
         if (!doc.exists) {
@@ -59,13 +59,13 @@ class FriendScreen extends React.Component {
 
   _actionSheetOnPress = (index) => {
     const { navigate } = this.props.navigation
-    const userLoginData = this.props.navigation.getParam('userData', undefined)
+    const userLoginData = this.props.navigation.getParam('userLoginData', undefined)
     switch (index) {
     case 0:
       navigate('Chat', { friendData: this.state.currentFriend, userLoginData: userLoginData })
       break
     case 1:
-      navigate('TempProfile', { userData: this.state.currentFriend })
+      navigate('TempProfile', { userLoginData: this.state.currentFriend })
       break
     case 2:
       // remove player
