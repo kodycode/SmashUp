@@ -10,6 +10,7 @@ class EditForm extends Component {
     super(props)
     this.state = {
       playerName: '',
+      averageGSP: '',
       location: '',
       bio: '',
       tagsSelected: [],
@@ -96,6 +97,9 @@ class EditForm extends Component {
     if (this.state.playerName.trim().replace(/\s/g, '').length && this.state.playerName.trim()) {
       newUpdate.playerName = this.state.playerName.trim()
     }
+    if (this.state.averageGSP.trim().replace(/\s/g, '').length && this.state.averageGSP.trim()) {
+      newUpdate.averageGSP = this.state.averageGSP.trim()
+    }
     if (this.state.location.trim().replace(/\s/g, '').length && this.state.location.trim()) {
       newUpdate.location = this.state.location.trim()
     }
@@ -161,6 +165,12 @@ class EditForm extends Component {
               placeholder='Enter city and state here'
               style={styles.textBoxStyle}
               onChangeText={(location) => { this.setState({ location }) }}
+            />
+            <Text style={{ fontFamily: 'gotham' }}>Average GSP</Text>
+            <TextInput
+              placeholder='Enter GSP Here'
+              style={styles.textBoxStyle}
+              onChangeText={(averageGSP) => { this.setState({ averageGSP }) }}
             />
             <Text style={{ fontFamily: 'gotham' }}>Characters (up to 3)</Text>
             <View>

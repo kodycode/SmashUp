@@ -32,6 +32,7 @@ class RegisterForm extends Component {
               playerName: instance.state.realName.trim(),
               location: 'Undeclared',
               bio: 'About Me',
+              averageGSP: 0,
               listOfCharacters: [
                 'All Characters'
               ],
