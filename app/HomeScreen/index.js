@@ -1,16 +1,24 @@
 import React from 'react'
-import { Alert, View, Text, TouchableOpacity, TouchableWithoutFeedback, BackHandler } from 'react-native'
+import { Alert, Dimensions, View, Text, TouchableOpacity, TouchableWithoutFeedback, BackHandler } from 'react-native'
 import AutoTags from 'react-native-tag-autocomplete'
 import firebase from 'firebase'
 import styles from './styles'
 import SwipeCards from 'react-native-swipe-cards'
+import ImageOverlay from "react-native-image-overlay"
+import Images from './Images'
+
+const { width, height } = Dimensions.get('screen')
 
 class Card extends React.Component {
   render () {
     return (
       <TouchableWithoutFeedback>
-        <View style={[styles.card, { backgroundColor: 'black' }]}>
-          <Text style={styles.textOverlay}>{this.props.realName}, {this.props.age}</Text>
+        <View style={[styles.card, { backgroundColor: 'white' }]}>
+        <ImageOverlay
+            title={this.props.playerName + ', ' + this.props.age}
+            source={Images[this.props.img]}
+            overlayAlpha={0.3}
+            contentPosition={"bottom"}/>
         </View>
       </TouchableWithoutFeedback>
     )
@@ -27,10 +35,9 @@ class HomeScreen extends React.Component {
       collectionData: {},
       tagsSelected: [],
       cards: [
-        { realName: 'No matches yet', age: 'refresh?' }
+        { playerName: 'No matches yet', age: 'refresh?', img: '../../assets/img/roster.jpg' }
       ],
       characterRoster: [
-        { name: 'All Characters' },
         { name: 'Mario' },
         { name: 'Donkey Kong' },
         { name: 'Link' },
@@ -82,9 +89,7 @@ class HomeScreen extends React.Component {
         { name: 'Rosalina & Luma' },
         { name: 'Little Mac' },
         { name: 'Greninja' },
-        { name: 'Mii Brawler' },
-        { name: 'Mii Swordfighter' },
-        { name: 'Mii Gunner' },
+        { name: 'Mii Fighter' },
         { name: 'Palutena' },
         { name: 'Pac-Man' },
         { name: 'Robin' },
@@ -121,12 +126,16 @@ class HomeScreen extends React.Component {
             instance.state.tagsSelected.forEach(function (char) {
               var filteredArr = doc.data().listOfCharacters.filter(obj => obj.name === char.name)
               if (!tempCollectionData.hasOwnProperty(doc.id) && filteredArr.length) {
-                tempCollectionData[doc.id] = doc.data()
+                var tmpData = doc.data()
+                tmpData.img = char.name.toLowerCase().replace(' ', '_')
+                tempCollectionData[doc.id] = tmpData
               }
             })
           } else {
             if (doc.data().listOfCharacters) {
-              tempCollectionData[doc.id] = doc.data()
+              var tmpData = doc.data()
+              tmpData.img = 'roster'
+              tempCollectionData[doc.id] = tmpData
             }
           }
         })

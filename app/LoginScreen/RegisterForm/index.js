@@ -29,7 +29,7 @@ class RegisterForm extends Component {
             instance.state.dbh.collection('users').doc(instance.state.username.trim().toLowerCase()).set({
               realName: instance.state.realName.trim(),
               age: instance.state.age.trim(),
-              playerName: '',
+              playerName: instance.state.realName.trim(),
               location: 'Undeclared',
               bio: 'About Me',
               listOfCharacters: [
