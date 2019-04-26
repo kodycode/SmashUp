@@ -1,5 +1,6 @@
 import React from 'react'
-import { Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native'
+import { Alert, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native'
+import firebase from 'firebase'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 import styles from './styles'
@@ -21,11 +22,21 @@ class LoginScreen extends React.Component {
     this.setState({ registerFormVisible: true })
   }
 
-  setLoginFormVisible = (dismissLoginForm, loginSuccess, userData) => {
+  setLoginFormVisible = (dismissLoginForm, loginSuccess, userLoginData) => {
     const { navigate } = this.props.navigation
     this.setState({ loginFormVisible: dismissLoginForm })
     if (loginSuccess) {
-      navigate('Home', { userData: userData })
+      firebase.firestore().collection('users').doc(userLoginData.user.email.trim().toLowerCase()).get()
+        .then(doc => {
+          if (!doc.exists) {
+            Alert.alert('Unexpected failure to obtain user data.')
+          } else {
+            navigate('Home', { userLoginData: userLoginData, userData: doc.data() })
+          }
+        })
+        .catch(err => {
+          Alert.alert('Error', err.message)
+        })
     }
   }
 

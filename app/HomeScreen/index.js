@@ -4,21 +4,19 @@ import AutoTags from 'react-native-tag-autocomplete'
 import firebase from 'firebase'
 import styles from './styles'
 import SwipeCards from 'react-native-swipe-cards'
-import ImageOverlay from "react-native-image-overlay"
+import ImageOverlay from 'react-native-image-overlay'
 import Images from './Images'
-
-const { width, height } = Dimensions.get('screen')
 
 class Card extends React.Component {
   render () {
     return (
       <TouchableWithoutFeedback>
         <View style={[styles.card, { backgroundColor: 'white' }]}>
-        <ImageOverlay
+          <ImageOverlay
             title={this.props.playerName + ', ' + this.props.age}
             source={Images[this.props.img]}
             overlayAlpha={0.3}
-            contentPosition={"bottom"}/>
+            contentPosition={'bottom'}/>
         </View>
       </TouchableWithoutFeedback>
     )
@@ -119,6 +117,9 @@ class HomeScreen extends React.Component {
   _getCardData = () => {
     var instance = this
     var tempCollectionData = {}
+    const userData = this.props.navigation.getParam('userData', undefined)
+    var minGSP = parseInt(userData.averageGSP) - 100000
+    var maxGSP = parseInt(userData.averageGSP) + 100000
     firebase.firestore().collection('users').get()
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
@@ -127,15 +128,19 @@ class HomeScreen extends React.Component {
               var filteredArr = doc.data().listOfCharacters.filter(obj => obj.name === char.name)
               if (!tempCollectionData.hasOwnProperty(doc.id) && filteredArr.length) {
                 var tmpData = doc.data()
-                tmpData.img = char.name.toLowerCase().replace(' ', '_')
-                tempCollectionData[doc.id] = tmpData
+                if (minGSP <= tmpData.averageGSP && tmpData.averageGSP <= maxGSP) {
+                  tmpData.img = char.name.toLowerCase().replace(' ', '_')
+                  tempCollectionData[doc.id] = tmpData
+                }
               }
             })
           } else {
             if (doc.data().listOfCharacters) {
               var tmpData = doc.data()
-              tmpData.img = 'roster'
-              tempCollectionData[doc.id] = tmpData
+              if (minGSP <= tmpData.averageGSP && tmpData.averageGSP <= maxGSP) {
+                tmpData.img = 'roster'
+                tempCollectionData[doc.id] = tmpData
+              }
             }
           }
         })
@@ -165,24 +170,24 @@ class HomeScreen extends React.Component {
 
   _onProfilePress = () => {
     const { navigate } = this.props.navigation
-    const userData = this.props.navigation.getParam('userData', undefined)
-    navigate('Profile', { userData: userData })
+    const userLoginData = this.props.navigation.getParam('userLoginData', undefined)
+    navigate('Profile', { userLoginData: userLoginData })
   }
 
   _onFriendPress = () => {
     const { navigate } = this.props.navigation
-    const userData = this.props.navigation.getParam('userData', undefined)
-    navigate('Friend', { userData: userData })
+    const userLoginData = this.props.navigation.getParam('userLoginData', undefined)
+    navigate('Friend', { userLoginData: userLoginData })
   }
 
   getCards = (collectionData) => {
     var tempCards = []
-    const userData = this.props.navigation.getParam('userData', undefined)
+    const userLoginData = this.props.navigation.getParam('userLoginData', undefined)
     for (var profile in collectionData) {
       var obj = {}
       if (collectionData[profile].playerName !== undefined &&
           collectionData[profile].age !== undefined &&
-          profile !== userData.user.email &&
+          profile !== userLoginData.user.email &&
           profile !== undefined) {
         obj = collectionData[profile]
         obj.email = profile
@@ -195,24 +200,24 @@ class HomeScreen extends React.Component {
   displayProfile = (cardData) => {
     const { navigate } = this.props.navigation
     navigate('TempProfile', {
-      userData: this.state.collectionData[cardData.current.state.card.email]
+      userLoginData: this.state.collectionData[cardData.current.state.card.email]
     })
   }
 
   _onYup = (cardData) => {
     if (Object.keys(this.state.collectionData).length) {
       var instance = this
-      const userData = this.props.navigation.getParam('userData', undefined)
-      firebase.firestore().collection('users').doc(userData.user.email.trim().toLowerCase()).get()
+      const userLoginData = this.props.navigation.getParam('userLoginData', undefined)
+      firebase.firestore().collection('users').doc(userLoginData.user.email.trim().toLowerCase()).get()
         .then(doc => {
           if (!doc.exists) {
             Alert.alert('Unexpected failure to obtain user data.')
           } else {
             var tempObj = {}
-            const userData = instance.props.navigation.getParam('userData', undefined)
+            const userLoginData = instance.props.navigation.getParam('userLoginData', undefined)
             tempObj.requestsSent = doc.data().requestsSent
             tempObj.requestsSent.push(cardData.current.state.card.email)
-            firebase.firestore().collection('users').doc(userData.user.email.trim()).update(tempObj)
+            firebase.firestore().collection('users').doc(userLoginData.user.email.trim()).update(tempObj)
           }
         })
         .catch(err => {
