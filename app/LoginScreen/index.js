@@ -12,6 +12,7 @@ class LoginScreen extends React.Component {
       loginFormVisible: false,
       registerFormVisible: false
     }
+    console.disableYellowBox = true
   }
 
   _onLoginPress = () => {
