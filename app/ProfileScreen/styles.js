@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   AvatarContainer: {
     backgroundColor: 'lightgreen',
     width: '100%',
-    height: '50%',
+    height: '40%',
     justifyContent: 'flex-end',
     alignItems: 'center'
   },
@@ -41,8 +41,6 @@ const styles = StyleSheet.create({
   NameContainer: {
     width: '100%',
     height: '15%',
-    borderBottomWidth: 0.5,
-    borderColor: 'lightgray',
     alignItems: 'center'
   },
   NameTextStyle: {
@@ -50,6 +48,9 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   BioContainer: {
+    marginTop: 30,
+    borderTopWidth: 0.5,
+    borderColor: 'lightgray'
   },
   BioTextStyle: {
     fontFamily: 'gotham-medium'

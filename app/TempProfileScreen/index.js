@@ -40,6 +40,7 @@ class TempProfileScreen extends React.Component {
             <View style={styles.NameContainer}>
               <Text style={styles.NameTextStyle}>{this.state.profileData.realName}, {this.state.profileData.age}</Text>
               <Text style={styles.NameTextStyle}>Player Name: {this.state.profileData.playerName}</Text>
+              <Text style={styles.NameTextStyle}>Average GSP: {this.state.profileData.averageGSP}</Text>
               <Text style={styles.NameTextStyle}>List of Characters:</Text>
               <Text style={styles.NameTextStyle}>{
                 this.state.profileData.listOfCharacters

@@ -44,7 +44,6 @@ class FriendScreen extends React.Component {
             tempFriendList.push(friendData)
           }
         })
-        console.log(tempFriendList)
         instance.setState({
           userData: userCollectionData,
           friendList: tempFriendList
@@ -69,15 +68,20 @@ class FriendScreen extends React.Component {
       break
     case 2:
       // remove player
+      var tmpObj = this.state.userData
+      delete tmpObj.requestsSent.splice(tmpObj.requestsSent.indexOf(this.state.currentFriend.email), 1)
+      firebase.firestore().collection('users').doc(userLoginData.user.email.trim().toLowerCase()).update(tmpObj)
+      this.setState({ userData: tmpObj, friendList: tmpObj.requestsSent })
+      this.forceUpdate()
       break
     default:
       break
     }
   }
 
-  _getFriendList = () => {
+  _getFriendList = (friendList) => {
     // Obtain JSON of friends
-    return (<FlatList data={this.state.friendList}
+    return (<FlatList data={friendList}
       renderItem={({ item }) => {
         return (<TouchableOpacity style={styles.friendBlock} onPress={() => this.showActionSheet(item)}>
           <View style={styles.avatarImg}>
@@ -85,7 +89,11 @@ class FriendScreen extends React.Component {
           <View style={{ paddingLeft: 5 }}>
             <Text style={styles.TextStyle}>Name: {item.realName}</Text>
             <Text style={styles.TextStyle}>Player Name: {item.playerName}</Text>
-            <Text style={styles.TextStyle}>Characters: {item.listOfCharacters[0].name}</Text>
+            <Text style={styles.TextStyle}>Characters: {
+              item.listOfCharacters
+                ? item.listOfCharacters.map((character, i) => {
+                  return i + 1 !== item.listOfCharacters.length ? character.name + ', ' : character.name
+                }) : null}</Text>
           </View>
         </TouchableOpacity>)
       }}
@@ -111,7 +119,7 @@ class FriendScreen extends React.Component {
             style={styles.ScrollContainer}
             showsVerticalScrollIndicator={true}
           >
-            {this._getFriendList()}
+            {this._getFriendList(this.state.friendList)}
           </ScrollView>
           <ActionSheet
             ref={o => (this.ActionSheet = o)}
