@@ -53,7 +53,8 @@ class FriendScreen extends React.Component {
 
   _onHomePress = () => {
     const { navigate } = this.props.navigation
-    navigate('Home')
+    const userLoginData = this.props.navigation.getParam('userLoginData', undefined)
+    navigate('Home', { userLoginData: userLoginData, userData: this.state.userData })
   }
 
   _actionSheetOnPress = (index) => {
@@ -67,7 +68,6 @@ class FriendScreen extends React.Component {
       navigate('TempProfile', { userLoginData: this.state.currentFriend })
       break
     case 2:
-      // remove player
       var tmpObj = this.state.userData
       delete tmpObj.requestsSent.splice(tmpObj.requestsSent.indexOf(this.state.currentFriend.email), 1)
       firebase.firestore().collection('users').doc(userLoginData.user.email.trim().toLowerCase()).update(tmpObj)
@@ -80,7 +80,6 @@ class FriendScreen extends React.Component {
   }
 
   _getFriendList = (friendList) => {
-    // Obtain JSON of friends
     return (<FlatList data={friendList}
       renderItem={({ item }) => {
         return (<TouchableOpacity style={styles.friendBlock} onPress={() => this.showActionSheet(item)}>

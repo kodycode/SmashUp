@@ -11,14 +11,14 @@ class ProfileScreen extends React.Component {
       editable: false,
       editFormVisible: false,
       userData: this.props.navigation.getParam('userData', undefined),
+      userLoginData: this.props.navigation.getParam('userLoginData', undefined),
       profileData: {}
     }
     console.disableYellowBox = true
   }
 
   _onHomeButton = () => {
-    const { navigate } = this.props.navigation
-    navigate('Home')
+    this.props.navigation.push('Home', { userData: this.state.profileData, userLoginData: this.state.userLoginData })
   }
 
   _onEditButton = () => {
