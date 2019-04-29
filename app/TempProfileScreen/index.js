@@ -17,13 +17,15 @@ class TempProfileScreen extends React.Component {
 
   checkProfileData = () => {
     this.setState({
-      profileData: this.props.navigation.getParam('userLoginData', undefined)
+      profileData: this.props.navigation.getParam('playerData', undefined)
     })
   }
 
   _onExitButton = () => {
     const { navigate } = this.props.navigation
-    navigate('Home')
+    var userLoginData = this.props.navigation.getParam('userLoginData', undefined)
+    var userData = this.props.navigation.getParam('userData', undefined)
+    navigate('Home', { userLoginData: userLoginData, userData: userData })
   }
 
   render () {

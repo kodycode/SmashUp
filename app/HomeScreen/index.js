@@ -201,8 +201,12 @@ class HomeScreen extends React.Component {
 
   displayProfile = (cardData) => {
     const { navigate } = this.props.navigation
+    const userLoginData = this.props.navigation.getParam('userLoginData', undefined)
+    const userData = this.props.navigation.getParam('userLoginData', undefined)
     navigate('TempProfile', {
-      userLoginData: this.state.collectionData[cardData.current.state.card.email]
+      playerData: this.state.collectionData[cardData.current.state.card.email],
+      userLoginData: userLoginData,
+      userData: userData
     })
   }
 
