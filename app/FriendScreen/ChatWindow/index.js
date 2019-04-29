@@ -36,7 +36,6 @@ class ChatWindow extends React.Component {
     }
     dbInstance.ref(roomName).once('value', (snap) => {
       if (snap.val() === null) {
-        console.log(roomName)
         var roomRef = dbInstance.ref().child(roomName)
         var newRoomRef = roomRef.push()
         newRoomRef.set({ roomName: 'to be set' })
@@ -61,7 +60,6 @@ class ChatWindow extends React.Component {
   }
 
   onSend (msg) {
-    console.log(this.state.roomName)
     var chatRef = firebase.database().ref(this.state.roomName)
     delete msg[0]._id
     msg[0].createdAt = new Date().getTime()
