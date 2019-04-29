@@ -206,7 +206,8 @@ class HomeScreen extends React.Component {
     navigate('TempProfile', {
       playerData: this.state.collectionData[cardData.current.state.card.email],
       userLoginData: userLoginData,
-      userData: userData
+      userData: userData,
+      access: 'Home'
     })
   }
 

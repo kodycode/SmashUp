@@ -65,7 +65,7 @@ class FriendScreen extends React.Component {
       navigate('Chat', { friendData: this.state.currentFriend, userLoginData: userLoginData })
       break
     case 1:
-      navigate('TempProfile', { userLoginData: this.state.currentFriend })
+      navigate('TempProfile', { playerData: this.state.currentFriend })
       break
     case 2:
       var tmpObj = this.state.userData

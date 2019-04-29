@@ -25,7 +25,12 @@ class TempProfileScreen extends React.Component {
     const { navigate } = this.props.navigation
     var userLoginData = this.props.navigation.getParam('userLoginData', undefined)
     var userData = this.props.navigation.getParam('userData', undefined)
-    navigate('Home', { userLoginData: userLoginData, userData: userData })
+    var access = this.props.navigation.getParam('access', undefined)
+    if (access === 'Home') {
+      navigate('Home', { userLoginData: userLoginData, userData: userData })
+    } else {
+      navigate('Friend')
+    }
   }
 
   render () {
